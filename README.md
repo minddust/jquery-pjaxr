@@ -58,6 +58,8 @@ if ($.support.pjaxr) {
 }
 ```
 
+If you are migrating an existing site you probably don't want to enable pjaxr everywhere just yet.  Instead of using a global selector like `a` try annotating pjaxrable links with `data-pjaxr`, then use `'a[data-pjaxr]'` as your selector.
+
 
 ## Settings
 
