@@ -313,11 +313,7 @@ $ git clone https://github.com/minddust/jquery-pjaxr.git
 $ cd jquery-pjaxr/
 ```
 
-run the tests
-
-make a pull request
-
-win
+> TODO: explain how to run tests etc.
 
 
 ## Thanks
