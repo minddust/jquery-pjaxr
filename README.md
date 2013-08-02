@@ -1,4 +1,4 @@
-# jquery-pjaxr
+# jquery-pjaxr [![Build Status](https://secure.travis-ci.org/minddust/jquery-pjaxr.png)](http://travis-ci.org/minddust/jquery-pjaxr)
 
 jquery-pjaxr is [jQuery](http://jquery.com/) plugin that uses ajax and pushState to deliver a fast browsing experience.
 
