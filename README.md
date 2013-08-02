@@ -24,6 +24,11 @@ I hope pjaxr will help people who are running into the same problems like I did.
 There is already an awesome plugin called [jquery-pjax](https://github.com/defunkt/jquery-pjax) on which this project is based.  For not breaking existing frontends but to support the same port to the server this library is named **pjaxr** and accepts the same header **X-PJAX**.
 
 
+## Note 2
+
+There is lib is still beta.  There are no test cases yet.  Everything works as expected but for production usage - please wait until v1.1.0.
+
+
 ## Installation
 
 * Download the latest release: [v1.0.0](https://github.com/minddust/jquery-pjaxr/archive/v1.0.0.zip)
