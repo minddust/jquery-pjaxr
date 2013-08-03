@@ -360,7 +360,7 @@
 
     // generate a unique id for state object based on the current timestamp
     function uniqueId() {
-        return (new Date).getTime();
+        return (new Date()).getTime();
     }
 
     // hard replace current state with url
@@ -404,7 +404,7 @@
 
             fire('pjaxr:end', [fnPjaxR.options]);
         }
-        initialPop = false
+        initialPop = false;
     }
 
     // helper to extract pjax version from head meta tag
