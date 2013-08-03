@@ -31,10 +31,10 @@ This lib is still beta.  There are no test cases yet.  Everything works as expec
 
 ## Installation
 
-* Download the latest release: [v1.0.0](https://github.com/minddust/jquery-pjaxr/archive/v1.0.0.zip)
+* Download the latest release: [v1.0.0](https://github.com/minddust/jquery-pjaxr/archive/v1.0.0.zip) (NOT READY YET)
 * Clone the repository: `git clone git@github.com:minddust/jquery-pjaxr.git`.
 * Curl the library: `curl -O https://raw.github.com/minddust/jquery-pjaxr/master/jquery.pjaxr.min.js`
-* Install with [Bower](http://bower.io): `bower install jquery-pjaxr`.
+* Install with [Bower](http://bower.io): `bower install jquery-pjaxr`. (NOT READY YET)
 
 
 ## Dependencies
