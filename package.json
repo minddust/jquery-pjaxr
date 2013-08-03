@@ -2,10 +2,12 @@
     "name": "jquery-pjaxr",
     "version": "1.0.0-beta.1",
     "description": "jQuery plugin that uses ajax and pushState to deliver a fast browsing experience.",
-    "keywords": [
-        "library"
-    ],
+    "keywords": ["pjaxr", "pjax", "ajax", "jQuery"],
     "homepage": "https://www.minddust.com/jquery-pjaxr",
+    "author": {
+        "name": "Stephan Gross",
+        "web": "https://www.minddust.com"
+    },
     "repository": {
         "type": "git",
         "url": "git@github.com:minddust/jquery-pjaxr.git"
@@ -17,10 +19,6 @@
             "url": "http://mit-license.org/"
         }
     ],
-    "author": {
-        "name": "Stephan Gross",
-        "web": "https://github.com/minddust"
-    },
     "main": "./jquery-pjaxr.js",
     "scripts": {
         "test": "grunt test"
