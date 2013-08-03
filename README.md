@@ -26,7 +26,7 @@ There is already an awesome plugin called [jquery-pjax](https://github.com/defun
 
 ## Note 2
 
-There is lib is still beta.  There are no test cases yet.  Everything works as expected but for production usage - please wait until v1.1.0.
+This is lib is still beta.  There are no test cases yet.  Everything works as expected but for production usage - please wait until v1.1.0.
 
 
 ## Installation
