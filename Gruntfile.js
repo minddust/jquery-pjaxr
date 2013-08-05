@@ -2,12 +2,18 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         qunit: {
-            files: ['tests/*.html']
+            all: {
+                options: {
+                    urls: [
+                        'http://localhost:3000/tests/qunit/index.html'
+                    ]
+                }
+            }
         },
         connect: {
             server: {
                 options: {
-                    port: 8000,
+                    port: 3000,
                     base: '.'
                 }
             }
