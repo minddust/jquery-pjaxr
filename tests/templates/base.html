@@ -3,12 +3,14 @@
 <head>
     <title>{% block title %}base - default{% endblock %}</title>
     <meta name="author" content="minddust">
+    <script type="text/javascript" src="/libs/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="/jquery.pjaxr.js"></script>
 </head>
 <body>
     <nav id="main-menu">
         <ul>
-            <li><a href="home.html">home</a></li>
-            <li><a href="blog.html">blog</a></li>
+            <li><a href="/home/" data-pjaxr>home</a></li>
+            <li><a href="/blog/" data-pjaxr>blog</a></li>
             <li id="menu-extra-entry">{% block menu_extra_entry %}{% endblock %}</li>
         </ul>
     </nav>

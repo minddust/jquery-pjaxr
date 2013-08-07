@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 import os
 
 from flask import Flask, render_template, send_from_directory, request
-from werkzeug.routing import BaseConverter
 
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
@@ -51,7 +50,7 @@ def md_pjaxr():
     return send_from_directory(os.path.join(PROJECT_ROOT, '..'), 'jquery.pjaxr.js')
 
 
-@app.route('/<path:filename>')
+@app.route('/<path:filename>/')
 def md_template(filename):
     return pjax('{filename}.html'.format(filename=filename))
 
