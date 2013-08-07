@@ -10,7 +10,7 @@ before_script:
   - sleep 3  # give xvfb some time to start
   - python ./tests/app.py 2>/dev/null &
 
-script: phantomjs ./tests/run-qunit.js "http://localhost:8000/"
+script: phantomjs ./tests/run-qunit.js "http://localhost:5000/"
 
 notifications:
   email: false
