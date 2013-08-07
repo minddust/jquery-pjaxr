@@ -1,6 +1,16 @@
----
-language: node_js
-node_js:
-- 0.10
+language: ruby
+rvm:
+  - 1.9.3
+
+install: gem install sinatra
+
 before_script:
-  - npm install -g grunt-cli
+  - "export DISPLAY=:99.0"  # http://about.travis-ci.org/docs/user/gui-and-headless-browsers/
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3  # give xvfb some time to start
+  - ruby ./tests/app.rb 2>/dev/null &
+
+script: phantomjs ./test/run-qunit.coffee "http://localhost:8000/"
+
+notifications:
+  email: false
