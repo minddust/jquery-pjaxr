@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>home</title>
-    <meta name="author" content="minddust">
-</head>
-<body>
-    <nav id="main-menu">
-        <ul>
-            <li><a href="home.html">home</a></li>
-            <li><a href="blog.html">blog</a></li>
-            <li id="menu-extra-entry"></li>
-        </ul>
-    </nav>
-    <div id="content"><h1>home</h1></div>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}home{% endblock %}
+
+{% block content %}<h1>home</h1>{% endblock %}

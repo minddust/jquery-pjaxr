@@ -37,32 +37,32 @@ def _pjaxify_template_name(name):
 
 
 @app.route('/')
-def qunit():
+def md_qunit():
     return render_template('qunit.html')
 
 
 @app.route('/favicon.ico')
-def favicon():
+def md_favicon():
     return send_from_directory(PROJECT_ROOT, 'favicon.ico')
 
 
 @app.route('/jquery.pjaxr.js')
-def pjaxr():
+def md_pjaxr():
     return send_from_directory(os.path.join(PROJECT_ROOT, '..'), 'jquery.pjaxr.js')
 
 
 @app.route('/<path:filename>')
-def view(filename):
-    return pjax(filename)
+def md_template(filename):
+    return pjax('{filename}.html'.format(filename=filename))
 
 
 @app.route('/libs/<path:filename>')
-def lib(filename):
+def md_lib(filename):
     return send_from_directory(os.path.join(PROJECT_ROOT, 'libs'), filename)
 
 
 @app.route('/qunit/<path:filename>')
-def test(filename):
+def md_test(filename):
     return send_from_directory(os.path.join(PROJECT_ROOT, 'qunit'), filename)
 
 

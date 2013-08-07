@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}base - default{% endblock %}</title>
+    <meta name="author" content="minddust">
+</head>
+<body>
+    <nav id="main-menu">
+        <ul>
+            <li><a href="home.html">home</a></li>
+            <li><a href="blog.html">blog</a></li>
+            <li id="menu-extra-entry">{% block menu_extra_entry %}{% endblock %}</li>
+        </ul>
+    </nav>
+    <div id="content">{% block content %}{% endblock %}</div>
+</body>
+</html>
