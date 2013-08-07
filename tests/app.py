@@ -1,16 +1,15 @@
 from __future__ import unicode_literals
 
+import os
+
 from flask import Flask, render_template, send_from_directory, request
 from werkzeug.routing import BaseConverter
 
 
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+
 app = Flask(__name__)
-
-
-class RegexConverter(BaseConverter):
-    def __init__(self, url_map, *items):
-        super(RegexConverter, self).__init__(url_map)
-        self.regex = items[0]
 
 
 # thanks @zachwill - https://github.com/zachwill/pjax_flask/blob/master/app.py
@@ -39,27 +38,32 @@ def _pjaxify_template_name(name):
 
 @app.route('/')
 def qunit():
-    return render_template('views/qunit.html')
+    return render_template('qunit.html')
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(PROJECT_ROOT, 'favicon.ico')
 
 
 @app.route('/jquery.pjaxr.js')
 def pjaxr():
-    return send_from_directory('../', 'jquery.pjaxr.js')
+    return send_from_directory(os.path.join(PROJECT_ROOT, '..'), 'jquery.pjaxr.js')
 
 
-@app.route('/<regex("[\w]+\.html"):view>/')
-def view(view):
-    return pjax('views/{view}'.format(view=view))
+@app.route('/<path:filename>')
+def view(filename):
+    return pjax(filename)
 
 
-@app.route('/<regex("/libs/[\w]+\.[js|css]"):lib>/')
-def lib(lib):
-    return send_from_directory('libs/', lib)
+@app.route('/libs/<path:filename>')
+def lib(filename):
+    return send_from_directory(os.path.join(PROJECT_ROOT, 'libs'), filename)
 
 
-@app.route('/<regex("/qunit/[\w]+\.js"):test>/')
-def test(test):
-    return send_from_directory('qunit/', test)
+@app.route('/qunit/<path:filename>')
+def test(filename):
+    return send_from_directory(os.path.join(PROJECT_ROOT, 'qunit'), filename)
 
 
 if __name__ == '__main__':

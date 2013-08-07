@@ -6,7 +6,7 @@
     <script type="text/javascript" src="/libs/jquery-2.0.3.js"></script>
     <script type="text/javascript" src="/libs/qunit-1.12.0.js"></script>
     <script type="text/javascript" src="/jquery.pjaxr.js"></script>
-    <script type="text/javascript">QUnit.config.autostart = false;</script>
+    <script type="text/javascript">QUnit.config.autostart = false; $(document).ready(function() { QUnit.start(); });</script>
     <script type="text/javascript" src="/qunit/test.js"></script>
 </head>
 <body>
