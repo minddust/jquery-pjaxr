@@ -113,12 +113,6 @@
                     return;
                 }
 
-                // why would someone do such settings? makes pjaxr useless --> hard load the new url
-                if (!opts.push && !opts.replace) {
-                    locationReplace(opts.url);
-                    return;
-                }
-
                 var head_match = data.match(/<pjaxr-head>([\s\S.]*)<\/pjaxr-head>/i);
                 var body_match = data.match(/<pjaxr-body>([\s\S.]*)<\/pjaxr-body>/i);
 
@@ -163,7 +157,9 @@
                     head_revert: head_match ? revert_head_parts : null,
                     body_revert: body_match ? revert_body_parts : null
                 });
-                window.history.replaceState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
+                if (opts.push || opts.replace) {
+                    window.history.replaceState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
+                }
 
                 fnPjaxR.state = {
                     id: stateId,
