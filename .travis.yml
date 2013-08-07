@@ -14,3 +14,8 @@ script: phantomjs ./tests/run-qunit.js "http://localhost:5000/"
 
 notifications:
   email: false
+
+branches:
+  only:
+    - master
+    - add_test_cases
