@@ -178,7 +178,7 @@ Note: Each state will be called via pjaxr and is fully reversible.
                 </ul>
             </nav>
             <div id="content"><h1>home</h1></div>
-            <script>$(document).ready(function() { $(document).pjaxr('a'); } });</script>
+            <script>$(document).ready(function() { $(document).pjaxr('a'); });</script>
         </body>
         </html>
         
@@ -222,7 +222,7 @@ Note: Each state will be called via pjaxr and is fully reversible.
                 </ul>
             </nav>
             <div id="content"><h1>Entry X</h1><a href="/blog/entry-x/">click here to read more</a></div>
-            <script>$(document).ready(function() { $(document).pjaxr('a'); } });</script>
+            <script>$(document).ready(function() { $(document).pjaxr('a'); });</script>
         </body>
         </html>
         
@@ -238,7 +238,7 @@ Note: Each state will be called via pjaxr and is fully reversible.
         </pjaxr-head>
         <pjaxr-body>
             <li id="menu-extra-entry"><a href="/blog/entry-x/">click here for the latest shown blog entry</a></li>
-            <div id="content"><h1>Entry X</h1><p>content of entry-x blog post bla..</div>
+            <div id="content"><h1>Entry X</h1><p>content of entry-x blog post bla..</p></div>
         </pjaxr-body>
               
         ```
@@ -260,8 +260,8 @@ Note: Each state will be called via pjaxr and is fully reversible.
                     <li id="menu-extra-entry"><a href="/blog/entry-x/">click here for the latest shown blog entry</a></li>
                 </ul>
             </nav>
-            <div id="content"><h1>Entry X</h1><p>content of entry-x blog post bla..</div>
-            <script>$(document).ready(function() { $(document).pjaxr('a'); } });</script>
+            <div id="content"><h1>Entry X</h1><p>content of entry-x blog post bla..</p></div>
+            <script>$(document).ready(function() { $(document).pjaxr('a'); });</script>
         </body>
         </html>
         
@@ -299,7 +299,7 @@ Note: Each state will be called via pjaxr and is fully reversible.
                 </ul>
             </nav>
             <div id="content"><h1>home</h1></div>
-            <script>$(document).ready(function() { $(document).pjaxr('a'); } });</script>
+            <script>$(document).ready(function() { $(document).pjaxr('a'); });</script>
         </body>
         </html>
         
