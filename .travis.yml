@@ -10,7 +10,7 @@ before_script:
   - sleep 3  # give xvfb some time to start
   - ruby ./tests/app.rb 2>/dev/null &
 
-script: phantomjs ./test/run-qunit.coffee "http://localhost:8000/"
+script: phantomjs ./tests/run-qunit.js "http://localhost:8000/"
 
 notifications:
   email: false
