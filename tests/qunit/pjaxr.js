@@ -245,3 +245,38 @@ asyncTest('preserves query string on GET request', function() {
     $(document).pjaxr('a[data-pjaxr]');
     $('a[href="/empty/?foo=1&bar=2"]').trigger('click');
 });
+
+asyncTest('apply last title', function() {
+    equal(window.location.pathname, '/');
+    equal(document.title, 'qunit');
+
+    $(document).one('pjaxr:end', function() {
+        equal(window.location.pathname, '/titles/');
+        equal(document.title, 'last title');
+
+        history.back();
+
+        setTimeout(function() {
+            equal(window.location.pathname, '/');
+            equal(document.title, 'qunit');
+
+            history.forward();
+
+            setTimeout(function() {
+                equal(window.location.pathname, '/titles/');
+                equal(document.title, 'last title');
+
+                history.back();
+
+                setTimeout(function() {
+                    equal(window.location.pathname, '/');
+                    start();
+                }, 0);
+            }, 0);
+        }, 0);
+    });
+
+    $(document).pjaxr('a[data-pjaxr]');
+    $('a[href="/titles/"]').trigger('click');
+});
+
