@@ -163,3 +163,41 @@ asyncTest('data-remove-on-pjaxr', function() {
     $(document).pjaxr('a[data-pjaxr]');
     $('a[href="/empty/"]').trigger('click');
 });
+
+asyncTest('multicontainer replacement', function() {
+    equal(window.location.pathname, '/');
+    equal($('#menu-extra-entry').html().trim(), '');
+    equal($('#content').html().trim(), '<h1>qunit tests</h1>');
+
+    $(document).one('pjaxr:end', function() {
+        equal(window.location.pathname, '/blog/');
+        equal($('#menu-extra-entry').html().trim(), '<a href="/entry-x/">click here for the latest blog entry</a>');
+        equal($('#content').html().trim(), '<h1>blog list - pjax</h1><br><h2>Entry X</h2><a href="/entry-x/">click here to read more</a>');
+
+        history.back();
+
+        setTimeout(function() {
+            equal(window.location.pathname, '/');
+            equal($('#menu-extra-entry').html().trim(), '');
+            equal($('#content').html().trim(), '<h1>qunit tests</h1>');
+
+            history.forward();
+
+            setTimeout(function() {
+                equal(window.location.pathname, '/blog/');
+                equal($('#menu-extra-entry').html().trim(), '<a href="/entry-x/">click here for the latest blog entry</a>');
+                equal($('#content').html().trim(), '<h1>blog list - pjax</h1><br><h2>Entry X</h2><a href="/entry-x/">click here to read more</a>');
+
+                history.back();
+
+                setTimeout(function() {
+                    equal(window.location.pathname, '/');
+                    start();
+                }, 0);
+            }, 0);
+        }, 0);
+    });
+
+    $(document).pjaxr('a[data-pjaxr]');
+    $('a[href="/blog/"]').trigger('click');
+});
