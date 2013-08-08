@@ -23,10 +23,7 @@ I hope pjaxr will help people who are running into the same problems like I did.
 
 There is already an awesome plugin called [jquery-pjax](https://github.com/defunkt/jquery-pjax) on which this project is based.  For not breaking existing frontends but to support the same port to the server this library is named **pjaxr** and accepts the same header **X-PJAX**.
 
-
-## Note 2
-
-This lib is still beta.  There are no test cases yet.  Everything works as expected but for production usage - please wait until v1.1.0.
+> There are still many testcases missing but the most signicant are setup. pr's are welcome.
 
 
 ## Installation
@@ -315,12 +312,16 @@ If you are using this library and want to get listed below.  Please let me know.
 
 ## Contributing
 
+Help is appreciated!
+
 ```
 $ git clone https://github.com/minddust/jquery-pjaxr.git
 $ cd jquery-pjaxr/
+$ python ./tests/app.py
+$ phantomjs ./tests/run-qunit.js "http://localhost:5000/"
 ```
 
-> TODO: explain how to run tests etc.
+You may need to install **flask** to run the `app.py` and **phantomjs** to start the tests.
 
 
 ## Thanks

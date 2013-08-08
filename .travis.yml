@@ -1,16 +1,16 @@
-language: ruby
-rvm:
-  - 1.9.3
+language: python
+python:
+  - 2.7
 
-install: gem install sinatra
+install: pip install flask==0.10.1
 
 before_script:
   - "export DISPLAY=:99.0"  # http://about.travis-ci.org/docs/user/gui-and-headless-browsers/
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3  # give xvfb some time to start
-  - ruby ./tests/app.rb 2>/dev/null &
+  - python ./tests/app.py 2>/dev/null &
 
-script: phantomjs ./test/run-qunit.coffee "http://localhost:8000/"
+script: phantomjs ./tests/run-qunit.js "http://localhost:5000/"
 
 notifications:
   email: false

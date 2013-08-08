@@ -129,9 +129,10 @@
 
                 if (head_match) {
                     var $head = $(parseHTML(head_match[0]));
-                    var head_parts = processPjaxHead('forward', $head.children(), null);
+                    var head_parts = processPjaxHead('forward', $head.children(), null, null);
                     var apply_head_parts = head_parts[0];
                     var revert_head_parts = head_parts[1];
+                    var remove_head_parts = head_parts[2];
                 }
 
                 if (body_match) {
@@ -155,6 +156,7 @@
                 // enrich current state information with removal instructions
                 $.extend(fnPjaxR.state, {
                     head_revert: head_match ? revert_head_parts : null,
+                    head_remove: head_match ? remove_head_parts : null,
                     body_revert: body_match ? revert_body_parts : null
                 });
                 if (opts.push || opts.replace) {
@@ -201,6 +203,7 @@
     function processPjaxHeadElements(elements, append) {
         var apply_head_parts = [];
         var revert_head_parts = [];
+        var remove_head_parts = [];
 
         if (elements && elements.length > 0) {
             $.each(elements, function(index, value) {
@@ -210,21 +213,20 @@
                 if ($value.is('title')) {
                     document.title = $value.text();
                 }
-
-                if ($value.is('meta')) {
+                else if ($value.is('meta')) {
                     var $meta;
                     var name = $value.attr('name');
                     var property = $value.attr('property');
 
                     if (name) {
-                        $meta = $('head > meta[name='+name+']');
+                        $meta = $('head > meta[name="'+name+'"]');
                     }
                     else if (property) {
-                        $meta = $('head > meta[property='+property+']');
+                        $meta = $('head > meta[property="'+property+'"]');
                     }
 
                     if ($meta.length > 0) {
-                        revert_head_parts.push(outerHTML($meta));
+                        remove_head_parts.push(outerHTML($meta));
                         $meta.remove();
                     }
                     else {
@@ -236,14 +238,13 @@
                         apply_head_parts.push(outerHTML($value));
                     }
                 }
-
-                if ($value.is('link')) {
+                else if ($value.is('link')) {
                     var link_href = $value.attr('href');
                     if (link_href) {
-                        var $link = $('head > link[href='+link_href+']');
+                        var $link = $('head > link[href="'+link_href+'"]');
 
                         if ($link.length > 0) {
-                            revert_head_parts.push(outerHTML($link));
+                            remove_head_parts.push(outerHTML($link));
                             $link.remove();
                         }
                         else {
@@ -256,14 +257,13 @@
                         }
                     }
                 }
-
-                if ($value.is('script')) {
-                    var script_href = $value.attr('href');
-                    if (script_href) {
-                        var $script = $('head > script[href='+script_href+']');
+                else if ($value.is('script')) {
+                    var script_src = $value.attr('src');
+                    if (script_src) {
+                        var $script = $('head > script[src="'+script_src+'"]');
 
                         if ($script.length > 0) {
-                            revert_head_parts.push(outerHTML($link));
+                            remove_head_parts.push(outerHTML($link));
                             $script.remove();
                         }
                         else {
@@ -276,8 +276,7 @@
                         }
                     }
                 }
-
-                if ($value.is('style')) {
+                else if ($value.is('style')) {
                     if (append === true) {
                         $('head').append($value);
                         apply_head_parts.push(outerHTML($value));
@@ -287,32 +286,37 @@
             });
         }
 
-        return [apply_head_parts, revert_head_parts];
+        return [apply_head_parts, revert_head_parts, remove_head_parts];
     }
 
-    function processPjaxHead(direction, apply_elements, revert_elements) {
+    function processPjaxHead(direction, apply_elements, revert_elements, remove_elements) {
         var apply_head_parts = [];
         var revert_head_parts = [];
+        var remove_head_parts = [];
 
         // cleanup head elements
         if (direction === 'forward') {
             $('head > [data-remove-on-pjaxr]').each(function() {
                 var $this = $(this);
-                revert_head_parts.push(outerHTML($this));
+                remove_head_parts.push(outerHTML($this));
                 $this.remove();
             });
         }
         else if (direction === 'back') {
             var revert_result = processPjaxHeadElements(revert_elements, false);
-            // there are no apply element on revert processing
+            var remove_result = processPjaxHeadElements(remove_elements, true);
+
+            // there are no apply elements on back processing
             $.extend(revert_head_parts, revert_result[1]);
+            $.extend(remove_head_parts, remove_result[2]);
         }
 
         var apply_result = processPjaxHeadElements(apply_elements, true);
         $.extend(apply_head_parts, apply_result[0]);
         $.extend(revert_head_parts, apply_result[1]);
+        $.extend(remove_head_parts, apply_result[2]);
 
-        return [apply_head_parts, revert_head_parts];
+        return [apply_head_parts, revert_head_parts, remove_head_parts];
     }
 
     function processPjaxBody(elements) {
@@ -386,7 +390,7 @@
             var direction = fnPjaxR.state.id < state.id ? 'forward' : 'back';
 
             // null check inside
-            processPjaxHead(direction, state.head_apply, state.head_revert);
+            processPjaxHead(direction, state.head_apply, state.head_revert, state.head_remove);
 
             var body = direction === 'forward' ? state.body_apply : state.body_revert;
             if (body && body.length > 0) {
