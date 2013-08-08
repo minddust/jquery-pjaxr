@@ -1,0 +1,13 @@
+{
+    "name": "pjaxr",
+    "version": "1.0.0",
+    "main": "./jquery.pjaxr.js",
+    "dependencies": {
+        "jquery": ">=1.8"
+    },
+    "ignore": [
+        ".travis.yml",
+        ".gitignore",
+        "tests/"
+    ]
+}
