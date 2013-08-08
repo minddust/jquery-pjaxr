@@ -50,6 +50,11 @@ def md_pjaxr():
     return send_from_directory(os.path.join(PROJECT_ROOT, '..'), 'jquery.pjaxr.js')
 
 
+@app.route('/eval.js')
+def md_eval():
+    return send_from_directory(PROJECT_ROOT, 'eval.js')
+
+
 @app.route('/<path:filename>/')
 def md_template(filename):
     return pjax('{filename}.html'.format(filename=filename))

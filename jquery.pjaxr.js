@@ -219,10 +219,10 @@
                     var property = $value.attr('property');
 
                     if (name) {
-                        $meta = $('head > meta[name='+name+']');
+                        $meta = $('head > meta[name="'+name+'"]');
                     }
                     else if (property) {
-                        $meta = $('head > meta[property='+property+']');
+                        $meta = $('head > meta[property="'+property+'"]');
                     }
 
                     if ($meta.length > 0) {
@@ -241,7 +241,7 @@
                 else if ($value.is('link')) {
                     var link_href = $value.attr('href');
                     if (link_href) {
-                        var $link = $('head > link[href='+link_href+']');
+                        var $link = $('head > link[href="'+link_href+'"]');
 
                         if ($link.length > 0) {
                             remove_head_parts.push(outerHTML($link));
@@ -258,9 +258,9 @@
                     }
                 }
                 else if ($value.is('script')) {
-                    var script_href = $value.attr('href');
-                    if (script_href) {
-                        var $script = $('head > script[href='+script_href+']');
+                    var script_src = $value.attr('src');
+                    if (script_src) {
+                        var $script = $('head > script[src="'+script_src+'"]');
 
                         if ($script.length > 0) {
                             remove_head_parts.push(outerHTML($link));
