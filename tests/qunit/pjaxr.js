@@ -161,7 +161,7 @@ asyncTest('data-remove-on-pjaxr', function() {
     });
 
     $(document).pjaxr('a[data-pjaxr]');
-    $('a[href="/empty/"]').trigger('click');
+    $('a[href="/empty/?foo=1&bar=2"]').trigger('click');
 });
 
 asyncTest('multicontainer replacement', function() {
@@ -224,4 +224,24 @@ asyncTest('evaluate script', function() {
 
     $(document).pjaxr('a[data-pjaxr]');
     $('a[href="/script/"]').trigger('click');
+});
+
+asyncTest('preserves query string on GET request', function() {
+    equal(window.location.pathname, '/');
+
+    $(document).one('pjaxr:end', function() {
+        equal(window.location.pathname, '/empty/');
+        equal(window.location.search, "?foo=1&bar=2")
+
+        history.back();
+
+        setTimeout(function() {
+            equal(window.location.pathname, '/');
+
+            start();
+        }, 0);
+    });
+
+    $(document).pjaxr('a[data-pjaxr]');
+    $('a[href="/empty/?foo=1&bar=2"]').trigger('click');
 });
