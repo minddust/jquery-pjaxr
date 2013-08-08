@@ -4,10 +4,11 @@ asyncTest('push 1rd level url', function() {
     equal(window.location.pathname, '/');
     equal($('head > title').html(), 'qunit');
     equal(document.title, 'qunit');
-    equal($('head > meta').length, 1);
+    equal($('head > meta').length, 2);
     $.each($('head > meta'), function(index, value) {
         var $meta = $(value);
         if ($meta.attr('name') === 'author') { equal($meta.attr('content'), 'minddust'); }
+        else if ($meta.attr('name') === 'title') { equal($meta.attr('content'), 'qunit'); }
         else { ok(false); }
     });
     equal($('head > link').length, 1);
@@ -41,10 +42,11 @@ asyncTest('push 1rd level url', function() {
             equal(window.location.pathname, '/');
             equal($('head > title').html(), 'qunit');
             equal(document.title, 'qunit');
-            equal($('head > meta').length, 1);
+            equal($('head > meta').length, 2);
             $.each($('head > meta'), function(index, value) {
                 var $meta = $(value);
                 if ($meta.attr('name') === 'author') { equal($meta.attr('content'), 'minddust'); }
+                else if ($meta.attr('name') === 'title') { equal($meta.attr('content'), 'qunit'); }
                 else { ok(false); }
             });
             equal($('head > link').length, 1);
@@ -53,9 +55,12 @@ asyncTest('push 1rd level url', function() {
             equal($('#menu-extra-entry').html().trim(), '');
             equal($('#content').html().trim(), '<h1>qunit tests</h1>');
 
-            history.go(-(history.length - 1));
+            history.back();
 
-            start();
+            setTimeout(function() {
+                equal(window.location.pathname, '/');
+                start();
+            }, 0);
         }, 0);
     });
 
@@ -66,7 +71,7 @@ asyncTest('push 1rd level url', function() {
 asyncTest('push 2nd level url', function() {
     equal(window.location.pathname, '/');
     equal($('head > title').html(), 'qunit');
-    equal($('head > meta').length, 1);
+    equal($('head > meta').length, 2);
 
     $(document).one('pjaxr:end', function() {
         equal(window.location.pathname, '/home/');
@@ -104,9 +109,13 @@ asyncTest('push 2nd level url', function() {
                 equal($('#menu-extra-entry').html().trim(), '');
                 equal($('#content').html().trim(), '<h1>home - pjax</h1>');
 
-                history.go(-(history.length - 1));
+                history.back();
 
-                start();
+                setTimeout(function() {
+                    equal(window.location.pathname, '/');
+                    start();
+                }, 0);
+
             }, 0);
         });
 
@@ -115,4 +124,42 @@ asyncTest('push 2nd level url', function() {
 
     $(document).pjaxr('a[data-pjaxr]');
     $('a[href="/home/"]').trigger('click');
+});
+
+asyncTest('data-remove-on-pjaxr', function() {
+    equal(window.location.pathname, '/');
+    equal($('head > meta').length, 2);
+    equal($('head > meta[data-remove-on-pjaxr]').length, 1);
+
+    $(document).one('pjaxr:end', function() {
+        equal(window.location.pathname, '/empty/');
+        equal($('head > meta').length, 1);
+        equal($('head > meta[data-remove-on-pjaxr]').length, 0);
+
+        history.back();
+
+        setTimeout(function() {
+            equal(window.location.pathname, '/');
+            equal($('head > meta').length, 2);
+            equal($('head > meta[data-remove-on-pjaxr]').length, 1);
+
+            history.forward();
+
+            setTimeout(function() {
+                equal(window.location.pathname, '/empty/');
+                equal($('head > meta').length, 1);
+                equal($('head > meta[data-remove-on-pjaxr]').length, 0);
+
+                history.back();
+
+                setTimeout(function() {
+                    equal(window.location.pathname, '/');
+                    start();
+                }, 0);
+            }, 0);
+        }, 0);
+    });
+
+    $(document).pjaxr('a[data-pjaxr]');
+    $('a[href="/empty/"]').trigger('click');
 });
