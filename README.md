@@ -28,10 +28,10 @@ There is already an awesome plugin called [jquery-pjax](https://github.com/defun
 
 ## Installation
 
-* Download the latest release: [v1.0.0](https://github.com/minddust/jquery-pjaxr/archive/v1.0.0.zip) (NOT READY YET)
+* Download the latest release: [v1.0.0](https://github.com/minddust/jquery-pjaxr/archive/v1.0.0.zip)
 * Clone the repository: `git clone git@github.com:minddust/jquery-pjaxr.git`.
 * Curl the library: `curl -O https://raw.github.com/minddust/jquery-pjaxr/master/jquery.pjaxr.min.js`
-* Install with [Bower](http://bower.io): `bower install jquery-pjaxr`. (NOT READY YET)
+* Install with [Bower](http://bower.io): `bower install jquery-pjaxr`.
 
 
 ## Dependencies
@@ -150,159 +150,6 @@ There are many available plugins for different languages and frameworks which wi
 * FuelPHP: https://github.com/rcrowe/fuel-pjax
 * Grails: http://www.bobbywarner.com/2012/04/23/add-some-pjax-to-grails/
 * Rails: https://github.com/rails/pjax_rails
-
-
-## Behavior example
-
-Note: Each state will be called via pjaxr and is fully reversible.
-
-* Step 1
-    * **Request**: /
-    * **Response**: FULL PAGE LOAD
-    * **Result**:
-        ```html
-        <html>
-        <head>
-            <title>home</title>
-            <meta name="author" content="minddust">
-        </head>
-        <body>
-            <nav id="main-menu">
-                <ul>
-                    <li><a href="/">home</a></li>
-                    <li><a href="/blog/">blog</a></li>
-                    <li id="menu-extra-entry"></li>
-                </ul>
-            </nav>
-            <div id="content"><h1>home</h1></div>
-            <script>$(document).ready(function() { $(document).pjaxr('a'); });</script>
-        </body>
-        </html>
-        
-        ```
-
-* Step 2
-    * **Request**: /blog/
-    * **Response**: 
-        ```html
-        <pjaxr-head>
-            <title>blog</title>
-            <meta name="title" content="blog">
-            <meta name="description" content="blog post list">
-            <meta property="og:image" content="http://example.org/blog-image.png" data-remove-on-pjaxr>
-            <link href="additional-blog-styles.css" rel="stylesheet" type="text/css">
-            <script src="animate-something.js" data-remove-on-pjaxr></script>
-        </pjaxr-head>
-        <pjaxr-body>
-            <div id="content"><h1>Entry X</h1><a href="/blog/entry-x/">click here to read more</a></div>
-        </pjaxr-body>
-              
-        ```
-    * **Result**:
-        ```html
-        <html>
-        <head>
-            <title>blog</title>
-            <meta name="author" content="minddust">
-            <meta name="title" content="blog">
-            <meta name="description" content="blog post list">
-            <meta property="og:image" content="http://example.org/blog-image.png" data-remove-on-pjaxr>
-            <link href="additional-blog-styles.css" rel="stylesheet" type="text/css">
-            <script src="animate-something.js" data-remove-on-pjaxr></script>
-        </head>
-        <body>
-            <nav id="main-menu">
-                <ul>
-                    <li><a href="/">home</a></li>
-                    <li><a href="/blog/">blog</a></li>
-                    <li id="menu-extra-entry"></li>
-                </ul>
-            </nav>
-            <div id="content"><h1>Entry X</h1><a href="/blog/entry-x/">click here to read more</a></div>
-            <script>$(document).ready(function() { $(document).pjaxr('a'); });</script>
-        </body>
-        </html>
-        
-        ```
-
-* Step 3
-    * **Request**: /blog/entry-x/
-    * **Response**: 
-        ```html
-        <pjaxr-head>
-            <title>entry-x</title>
-            <meta name="description" content="blog post: entry-x">
-        </pjaxr-head>
-        <pjaxr-body>
-            <li id="menu-extra-entry"><a href="/blog/entry-x/">click here for the latest shown blog entry</a></li>
-            <div id="content"><h1>Entry X</h1><p>content of entry-x blog post bla..</p></div>
-        </pjaxr-body>
-              
-        ```
-    * **Result**:
-        ```html
-        <html>
-        <head>
-            <title>entry-x</title>
-            <meta name="author" content="minddust">
-            <meta name="title" content="blog">
-            <meta name="description" content="blog post: entry-x">
-            <link href="additional-blog-styles.css" rel="stylesheet" type="text/css">
-        </head>
-        <body>
-            <nav id="main-menu">
-                <ul>
-                    <li><a href="/">home</a></li>
-                    <li><a href="/blog/">blog</a></li>
-                    <li id="menu-extra-entry"><a href="/blog/entry-x/">click here for the latest shown blog entry</a></li>
-                </ul>
-            </nav>
-            <div id="content"><h1>Entry X</h1><p>content of entry-x blog post bla..</p></div>
-            <script>$(document).ready(function() { $(document).pjaxr('a'); });</script>
-        </body>
-        </html>
-        
-        ```
-        
-* Step 4
-    * **Request**: /
-    * **Response**: 
-        ```html
-        <pjaxr-head>
-            <title>home</title>
-            <meta name="author" content="minddust">
-        </pjaxr-head>
-        <pjaxr-body>
-            <div id="content"><h1>home</h1></div>
-        </pjaxr-body>
-              
-        ```
-    * **Result**:
-        ```html
-        <html>
-        <head>
-            <title>home</title>
-            <meta name="author" content="minddust">
-            <meta name="title" content="blog">
-            <meta name="description" content="blog post: entry-x">
-            <link href="additional-blog-styles.css" rel="stylesheet" type="text/css">
-        </head>
-        <body>
-            <nav id="main-menu">
-                <ul>
-                    <li><a href="/">home</a></li>
-                    <li><a href="/blog/">blog</a></li>
-                    <li id="menu-extra-entry"><a href="/blog/entry-x/">click here for the latest shown blog entry</a></li>
-                </ul>
-            </nav>
-            <div id="content"><h1>home</h1></div>
-            <script>$(document).ready(function() { $(document).pjaxr('a'); });</script>
-        </body>
-        </html>
-        
-        ```
-        
-As you can see - everything went fine until we went from step 3 to step 4. Now we have unwanted meta tags and styles.  In that case you should make neat use of `data-remove-on-pjax` to prevent messing up your head.
 
 
 ## Sites using jquery-pjaxr
