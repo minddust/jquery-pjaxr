@@ -132,7 +132,7 @@ asyncTest('data-remove-on-pjaxr', function() {
     equal($('head > meta[data-remove-on-pjaxr]').length, 1);
 
     $(document).one('pjaxr:end', function() {
-        equal(window.location.pathname, '/empty/');
+        equal(window.location.pathname, '/no-data/');
         equal($('head > meta').length, 1);
         equal($('head > meta[data-remove-on-pjaxr]').length, 0);
 
@@ -146,7 +146,7 @@ asyncTest('data-remove-on-pjaxr', function() {
             history.forward();
 
             setTimeout(function() {
-                equal(window.location.pathname, '/empty/');
+                equal(window.location.pathname, '/no-data/');
                 equal($('head > meta').length, 1);
                 equal($('head > meta[data-remove-on-pjaxr]').length, 0);
 
@@ -161,7 +161,7 @@ asyncTest('data-remove-on-pjaxr', function() {
     });
 
     $(document).pjaxr('a[data-pjaxr]');
-    $('a[href="/empty/?foo=1&bar=2"]').trigger('click');
+    $('a[href="/no-data/?foo=1&bar=2"]').trigger('click');
 });
 
 asyncTest('multicontainer replacement', function() {
@@ -230,7 +230,7 @@ asyncTest('preserves query string on GET request', function() {
     equal(window.location.pathname, '/');
 
     $(document).one('pjaxr:end', function() {
-        equal(window.location.pathname, '/empty/');
+        equal(window.location.pathname, '/no-data/');
         equal(window.location.search, "?foo=1&bar=2")
 
         history.back();
@@ -243,7 +243,7 @@ asyncTest('preserves query string on GET request', function() {
     });
 
     $(document).pjaxr('a[data-pjaxr]');
-    $('a[href="/empty/?foo=1&bar=2"]').trigger('click');
+    $('a[href="/no-data/?foo=1&bar=2"]').trigger('click');
 });
 
 asyncTest('apply last title', function() {
@@ -279,4 +279,30 @@ asyncTest('apply last title', function() {
     $(document).pjaxr('a[data-pjaxr]');
     $('a[href="/titles/"]').trigger('click');
 });
+
+// TODO: all fallback tests
+// not working cause we are not in an iframe (which causes other troubles)
+// need some new ideas / ways to get this running
+//
+//asyncTest('full load page on empty data', function() {
+//    equal(window.location.pathname, '/');
+//    equal(document.title, 'qunit');
+//
+//    $(document).one('pjaxr:end', function() {
+//        equal(window.location.pathname, '/empty/');
+//        equal(document.title, 'empty - full load');
+//
+//        history.back();
+//
+//        setTimeout(function() {
+//            equal(window.location.pathname, '/');
+//            equal(document.title, 'qunit');
+//
+//            start();
+//        }, 0);
+//    });
+//
+//    $(document).pjaxr('a[data-pjaxr]');
+//    $('a[href="/empty/"]').trigger('click');
+//});
 

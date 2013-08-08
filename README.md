@@ -315,12 +315,16 @@ If you are using this library and want to get listed below.  Please let me know.
 
 ## Contributing
 
+Help is appreciated!
+
 ```
 $ git clone https://github.com/minddust/jquery-pjaxr.git
 $ cd jquery-pjaxr/
+$ python ./tests/app.py
+$ phantomjs ./tests/run-qunit.js "http://localhost:5000/"
 ```
 
-> TODO: explain how to run tests etc.
+You may need to install **flask** to run the `app.py` and **phantomjs** to start the tests.
 
 
 ## Thanks
