@@ -1,6 +1,6 @@
 /*!
 * jquery.pjaxr.js v1.0.0 by @minddust
-* Copyright 2013 Stephan Gross
+* Copyright (c) 2013 Stephan Gross
 *
 * https://www.minddust.com/jquery-pjaxr
 *
