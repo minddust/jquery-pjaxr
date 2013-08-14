@@ -2,7 +2,7 @@
 * jquery.pjaxr.js v1.0.0 by @minddust
 * Copyright 2013 Stephan Gross
 *
-* https://www.minddust.com/project/jquery-pjaxr
+* https://www.minddust.com/jquery-pjaxr
 *
 * Licensed under the MIT license:
 * http://www.opensource.org/licenses/MIT
