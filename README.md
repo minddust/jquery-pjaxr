@@ -49,9 +49,19 @@ That's all you need to activate pjaxr functionality.
 
 If you only want to bind pjaxr when it's supported by the user's browser, you can activate pjaxr like this:
 
-``` javascript
+```javascript
 if ($.support.pjaxr) {
     $(document).pjaxr('a');
+}
+```
+
+Or - you can call the click handler by yourself and wrap it with some additional start functionality like this:
+
+```javascript
+if ($.support.pjaxr) {
+    $('#some-menu').on('click', 'a[data-pjaxr]', function(event) {
+        $(document).pjaxr.click(event);
+    });
 }
 ```
 
@@ -69,7 +79,6 @@ Of course there are some options which will change your pjaxr behavior:
 * `version`: delivered pjaxr version. used to compare with `X-PJAX-VERSION` of the response header to force hard load on mismatch. (default: `<meta http-equiv="X-PJAX-VERSION" content="...">`)
 
 You can either pass them as a second parameter on your `pjaxr` call or override them globally via `$.fn.pjaxr.defaults`.
-
 
 
 ## Signals

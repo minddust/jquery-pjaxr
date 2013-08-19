@@ -1,203 +1,209 @@
 /*!
-* jquery.pjaxr.js v1.0.0 by @minddust
-* Copyright 2013 Stephan Gross
+* jquery.pjaxr.js v1.0.1 by @minddust
+* Copyright (c) 2013 Stephan Gross
 *
-* https://www.minddust.com/project/jquery-pjaxr
+* https://www.minddust.com/jquery-pjaxr
 *
 * Licensed under the MIT license:
 * http://www.opensource.org/licenses/MIT
 */
 (function($) {
+    'use strict';
+
     function fnPjaxR(selector, options) {
         return this.on('click.pjaxr', selector, function(event) {
-            var link = event.currentTarget;
+            handleClick(event, options);
+        });
+    }
 
-            if (link.tagName.toUpperCase() !== 'A') {
-                throw '$.fn.pjaxXR requires an anchor element';
+    function handleClick(event, options) {
+        var link = event.currentTarget;
+
+        if (link.tagName.toUpperCase() !== 'A') {
+            throw '$.fn.pjaxXR requires an anchor element';
+        }
+
+        // middle click, cmd click, and ctrl click should open links in a new tab as normal.
+        if (event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+            return;
+        }
+
+        // ignore prevented links
+        if (event.isDefaultPrevented()) {
+            return;
+        }
+
+        // ignore cross origin links
+        if (location.protocol !== link.protocol || location.hostname !== link.hostname) {
+            return;
+        }
+
+        // ignore anchors on the same page
+        if (link.hash && link.href.replace(link.hash, '') === location.href.replace(location.hash, '')) {
+            return;
+        }
+
+        // ignore empty anchor 'foo.html#'
+        if (link.href === location.href + '#') {
+            return;
+        }
+
+        var defaults = {
+            url: $.isFunction(link.href) ? link.href() : link.href,
+            type: 'GET',  // always GET since we currently not support other methods
+            dataType: 'html',
+            target: link
+        };
+
+        var opts = fnPjaxR.options = $.extend(true, {}, $.ajaxSettings, defaults, $.fn.pjaxr.defaults, options);
+
+        if (!fire('pjaxr:click', [opts])) {
+            event.preventDefault();
+            return;
+        }
+
+        var timeoutTimer;
+
+        opts.beforeSend = function(xhr, settings) {
+            if (!fire('pjaxr:beforeSend', [xhr, settings])) {
+                return false;
             }
 
-            // middle click, cmd click, and ctrl click should open links in a new tab as normal.
-            if (event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
-                return;
+            xhr.setRequestHeader('X-PJAX', 'true');
+
+            if (settings.timeout > 0) {
+                timeoutTimer = setTimeout(function () {
+                    if (fire('pjaxr:timeout', [xhr, opts])) {
+                        xhr.abort('timeout');
+                    }
+                }, settings.timeout);
+
+                // clear timeout setting so jQuery's internal timeout isn't invoked
+                settings.timeout = 0;
             }
 
-            // ignore prevented links
-            if (event.isDefaultPrevented()) {
-                return;
-            }
+            return true;
+        };
 
-            // ignore cross origin links
-            if (location.protocol !== link.protocol || location.hostname !== link.hostname) {
-                return;
-            }
-
-            // ignore anchors on the same page
-            if (link.hash && link.href.replace(link.hash, '') === location.href.replace(location.hash, '')) {
-                return;
-            }
-
-            // ignore empty anchor 'foo.html#'
-            if (link.href === location.href + '#') {
-                return;
-            }
-
-            var defaults = {
-                url: $.isFunction(link.href) ? link.href() : link.href,
-                type: 'GET',  // always GET since we currently not support other methods
-                dataType: 'html',
-                target: link
+        // create pjax state for initial page load
+        if (!fnPjaxR.state) {
+            fnPjaxR.state = {
+                id: uniqueId(),
+                url: window.location.href,
+                title: document.title
             };
+            window.history.replaceState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
+        }
 
-            var opts = fnPjaxR.options = $.extend(true, {}, $.ajaxSettings, defaults, $.fn.pjaxr.defaults, options);
+        var xhr = fnPjaxR.xhr;
 
-            if (!fire('pjaxr:click', [opts])) {
-                event.preventDefault();
+        // cancel the current running pjax request if there is one
+        if (xhr && xhr.readyState < 4) {
+            xhr.onreadystatechange = $.noop;
+            xhr.abort();
+        }
+
+        // go-go-pjax
+        xhr = fnPjaxR.xhr = $.ajax(opts);
+
+        if (xhr.readyState > 0) {
+            fire('pjaxr:start', [opts]);
+        }
+
+        xhr.done(function(data, textStatus, jqXHR) {
+            var currentVersion = (typeof opts.version === 'function') ? opts.version() : opts.version;
+            var latestVersion = jqXHR.getResponseHeader('X-PJAX-Version');
+
+            // If there is a layout version mismatch, hard load the new url
+            if (currentVersion && latestVersion && currentVersion !== latestVersion) {
+                locationReplace(opts.url);
                 return;
             }
 
-            var timeoutTimer;
+            var head_match = data.match(/<pjaxr-head>([\s\S.]*)<\/pjaxr-head>/i);
+            var body_match = data.match(/<pjaxr-body>([\s\S.]*)<\/pjaxr-body>/i);
 
-            opts.beforeSend = function(xhr, settings) {
-                if (!fire('pjaxr:beforeSend', [xhr, settings])) {
-                    return false;
-                }
+            // if response data doesn't fit, hard load the new url
+            if (!head_match && !body_match) {
+                locationReplace(opts.url);
+                return;
+            }
 
-                xhr.setRequestHeader('X-PJAX', 'true');
+            // Clear out any focused controls before inserting new page contents.
+            document.activeElement.blur();
 
-                if (settings.timeout > 0) {
-                    timeoutTimer = setTimeout(function () {
-                        if (fire('pjaxr:timeout', [xhr, opts])) {
-                            xhr.abort('timeout');
-                        }
-                    }, settings.timeout);
+            var stateId = uniqueId();
 
-                    // clear timeout setting so jQuery's internal timeout isn't invoked
-                    settings.timeout = 0;
-                }
+            if (head_match) {
+                var $head = $(parseHTML(head_match[0]));
+                var head_parts = processPjaxHead('forward', $head.children(), null, null);
+                var apply_head_parts = head_parts[0];
+                var revert_head_parts = head_parts[1];
+                var remove_head_parts = head_parts[2];
+            }
 
-                return true;
-            };
+            if (body_match) {
+                var $body = $(parseHTML(body_match[0]));
+                var body_parts = processPjaxBody($body.children());
+                var apply_body_parts = body_parts[0];
+                var revert_body_parts = body_parts[1];
+            }
 
-            // create pjax state for initial page load
-            if (!fnPjaxR.state) {
-                fnPjaxR.state = {
-                    id: uniqueId(),
-                    url: window.location.href,
-                    title: document.title
-                };
+            // FF bug: Won't autofocus fields that are inserted via JS.
+            // This behavior is incorrect. So if there's no current focus, autofocus
+            // the last field.
+            //
+            // http://www.w3.org/html/wg/drafts/html/master/forms.html
+            $(document).find('input[autofocus], textarea[autofocus]').last().focus();
+
+            if (typeof opts.scrollTo === 'number') {
+                $(window).scrollTop(opts.scrollTo);
+            }
+
+            // enrich current state information with removal instructions
+            $.extend(fnPjaxR.state, {
+                head_revert: head_match ? revert_head_parts : null,
+                head_remove: head_match ? remove_head_parts : null,
+                body_revert: body_match ? revert_body_parts : null
+            });
+            if (opts.push || opts.replace) {
                 window.history.replaceState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
             }
 
-            var xhr = fnPjaxR.xhr;
+            fnPjaxR.state = {
+                id: stateId,
+                url: opts.url,
+                title: document.title,
+                head_apply: head_match ? apply_head_parts : null,
+                body_apply: body_match ? apply_body_parts : null
+            };
 
-            // cancel the current running pjax request if there is one
-            if (xhr && xhr.readyState < 4) {
-                xhr.onreadystatechange = $.noop;
-                xhr.abort();
+            if (opts.push) {
+                window.history.pushState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
+            }
+            else if (opts.replace) {
+                window.history.replaceState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
             }
 
-            // go-go-pjax
-            xhr = fnPjaxR.xhr = $.ajax(opts);
-
-            if (xhr.readyState > 0) {
-                fire('pjaxr:start', [opts]);
-            }
-
-            xhr.done(function(data, textStatus, jqXHR) {
-                var currentVersion = (typeof opts.version === 'function') ? opts.version() : opts.version;
-                var latestVersion = jqXHR.getResponseHeader('X-PJAX-Version');
-
-                // If there is a layout version mismatch, hard load the new url
-                if (currentVersion && latestVersion && currentVersion !== latestVersion) {
-                    locationReplace(opts.url);
-                    return;
-                }
-
-                var head_match = data.match(/<pjaxr-head>([\s\S.]*)<\/pjaxr-head>/i);
-                var body_match = data.match(/<pjaxr-body>([\s\S.]*)<\/pjaxr-body>/i);
-
-                // if response data doesn't fit, hard load the new url
-                if (!head_match && !body_match) {
-                    locationReplace(opts.url);
-                    return;
-                }
-
-                // Clear out any focused controls before inserting new page contents.
-                document.activeElement.blur();
-
-                var stateId = uniqueId();
-
-                if (head_match) {
-                    var $head = $(parseHTML(head_match[0]));
-                    var head_parts = processPjaxHead('forward', $head.children(), null, null);
-                    var apply_head_parts = head_parts[0];
-                    var revert_head_parts = head_parts[1];
-                    var remove_head_parts = head_parts[2];
-                }
-
-                if (body_match) {
-                    var $body = $(parseHTML(body_match[0]));
-                    var body_parts = processPjaxBody($body.children());
-                    var apply_body_parts = body_parts[0];
-                    var revert_body_parts = body_parts[1];
-                }
-
-                // FF bug: Won't autofocus fields that are inserted via JS.
-                // This behavior is incorrect. So if there's no current focus, autofocus
-                // the last field.
-                //
-                // http://www.w3.org/html/wg/drafts/html/master/forms.html
-                $(document).find('input[autofocus], textarea[autofocus]').last().focus();
-
-                if (typeof opts.scrollTo === 'number') {
-                    $(window).scrollTop(opts.scrollTo);
-                }
-
-                // enrich current state information with removal instructions
-                $.extend(fnPjaxR.state, {
-                    head_revert: head_match ? revert_head_parts : null,
-                    head_remove: head_match ? remove_head_parts : null,
-                    body_revert: body_match ? revert_body_parts : null
-                });
-                if (opts.push || opts.replace) {
-                    window.history.replaceState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
-                }
-
-                fnPjaxR.state = {
-                    id: stateId,
-                    url: opts.url,
-                    title: document.title,
-                    head_apply: head_match ? apply_head_parts : null,
-                    body_apply: body_match ? apply_body_parts : null
-                };
-
-                if (opts.push) {
-                    window.history.pushState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
-                }
-                else if (opts.replace) {
-                    window.history.replaceState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
-                }
-
-                fire('pjaxr:done', [data, textStatus, jqXHR, opts]);
-            });
-
-            xhr.fail(function(jqXHR, textStatus, errorThrown) {
-                if (textStatus !== 'abort' && fire('pjaxr:fail', [jqXHR, textStatus, errorThrown, opts])) {
-                    locationReplace(opts.url);
-                }
-            });
-
-            xhr.always(function() {
-                if (timeoutTimer) {
-                    clearTimeout(timeoutTimer);
-                }
-
-                fire('pjaxr:always', [opts]);
-                fire('pjaxr:end', [opts]);
-            });
-
-            event.preventDefault();
+            fire('pjaxr:done', [data, textStatus, jqXHR, opts]);
         });
+
+        xhr.fail(function(jqXHR, textStatus, errorThrown) {
+            if (textStatus !== 'abort' && fire('pjaxr:fail', [jqXHR, textStatus, errorThrown, opts])) {
+                locationReplace(opts.url);
+            }
+        });
+
+        xhr.always(function() {
+            if (timeoutTimer) {
+                clearTimeout(timeoutTimer);
+            }
+
+            fire('pjaxr:always', [opts]);
+            fire('pjaxr:end', [opts]);
+        });
+
+        event.preventDefault();
     }
 
     function processPjaxHeadElements(elements, append) {
@@ -263,11 +269,11 @@
                         var $script = $('head > script[src="'+script_src+'"]');
 
                         if ($script.length > 0) {
-                            remove_head_parts.push(outerHTML($link));
+                            remove_head_parts.push(outerHTML($script));
                             $script.remove();
                         }
                         else {
-                            revert_head_parts.push(outerHTML($script));
+                            revert_head_parts.push(outerHTML($value));
                         }
 
                         if (append === true) {
@@ -437,6 +443,7 @@
     // enables pushState behavior
     function enable() {
         $.fn.pjaxr = fnPjaxR;
+        $.fn.pjaxr.click = handleClick;
         $.fn.pjaxr.enable = $.noop;
         $.fn.pjaxr.disable = disable;
         $.fn.pjaxr.defaults = {
