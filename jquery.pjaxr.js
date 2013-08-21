@@ -1,5 +1,5 @@
 /*!
-* jquery.pjaxr.js v1.0.1 by @minddust
+* jquery.pjaxr.js v1.0.2 by @minddust
 * Copyright (c) 2013 Stephan Gross
 *
 * https://www.minddust.com/jquery-pjaxr
@@ -70,6 +70,11 @@
             }
 
             xhr.setRequestHeader('X-PJAX', 'true');
+
+            var namespace = link.data('pjaxr-namespace') || opts.namespace;
+            if (namespace) {
+                xhr.setRequestHeader('X-PJAX-NAMESPACE', namespace);
+            }
 
             if (settings.timeout > 0) {
                 timeoutTimer = setTimeout(function () {

@@ -67,6 +67,12 @@ if ($.support.pjaxr) {
 
 If you are migrating an existing site you probably don't want to enable pjaxr everywhere just yet.  Instead of using a global selector like `a` try annotating pjaxrable links with `data-pjaxr`, then use `'a[data-pjaxr]'` as your selector.
 
+### data-pjaxr-namespace
+
+There is also the possibility to add a `data-pjaxr-namespace` to the link which will then be set as `X-PJAX-NAMESPACE` of the request header.  If it's not set, the namespace of the initialise options will be used.
+
+By passing the namespace it's possible to limit the replacement area on the server side.  There is already an awesome library which makes use of this and will be released in a few days.  Stay tuned!  :tada:
+
 
 ## Settings
 
@@ -77,6 +83,7 @@ Of course there are some options which will change your pjaxr behavior:
 * `replace`: determines whether to replace the history state or not. will be ignored if `push` is `true`. (default: `false`)
 * `scrollTo`: position in pixel the to scroll after pjaxring. (default: `0`)
 * `version`: delivered pjaxr version. used to compare with `X-PJAX-VERSION` of the response header to force hard load on mismatch. (default: `<meta http-equiv="X-PJAX-VERSION" content="...">`)
+* `namespace`: will be passed via `X-PJAX-NAMESPACE` of the request header (if it's set) to handle additional server side logic. (default: `undefined`)
 
 You can either pass them as a second parameter on your `pjaxr` call or override them globally via `$.fn.pjaxr.defaults`.
 
