@@ -71,7 +71,9 @@ If you are migrating an existing site you probably don't want to enable pjaxr ev
 
 There is also the possibility to add a `data-pjaxr-namespace` to the link which will then be set as `X-PJAX-NAMESPACE` of the request header.  If it's not set, the namespace of the initialise options will be used.
 
-By passing the namespace it's possible to limit the replacement area on the server side.  There is already an awesome library which makes use of this and will be released in a few days.  Stay tuned!  :tada:
+By passing the namespace it's possible to limit the replacement area on the server side.  There is already an awesome library which makes use of this and will be released in a few days.
+
+Stay tuned!  :tada:
 
 
 ## Settings
