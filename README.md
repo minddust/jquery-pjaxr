@@ -85,7 +85,7 @@ Of course there are some options which will change your pjaxr behavior:
 * `replace`: determines whether to replace the history state or not. will be ignored if `push` is `true`. (default: `false`)
 * `scrollTo`: position in pixel the to scroll after pjaxring. (default: `0`)
 * `version`: delivered pjaxr version. used to compare with `X-PJAX-VERSION` of the response header to force hard load on mismatch. (default: `<meta http-equiv="X-PJAX-VERSION" content="...">`)
-* `namespace`: will be passed via `X-PJAX-NAMESPACE` of the request header (if it's set) to handle additional server side logic. (default: `undefined`)
+* `namespace`: will be passed via `X-PJAX-NAMESPACE` in the request header (if it's set) to handle additional server side logic. (default: `undefined`)
 
 You can either pass them as a second parameter on your `pjaxr` call or override them globally via `$.fn.pjaxr.defaults`.
 
