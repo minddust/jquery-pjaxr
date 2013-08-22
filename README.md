@@ -28,7 +28,7 @@ There is already an awesome plugin called [jquery-pjax](https://github.com/defun
 
 ## Installation
 
-* Download the latest release: [v1.0.3](https://github.com/minddust/jquery-pjaxr/archive/v1.0.3.zip)
+* Download the latest release: [v1.0.4](https://github.com/minddust/jquery-pjaxr/archive/v1.0.4.zip)
 * Clone the repository: `git clone git@github.com:minddust/jquery-pjaxr.git`.
 * Curl the library: `curl -O https://raw.github.com/minddust/jquery-pjaxr/master/jquery.pjaxr.min.js`
 * Install with [Bower](http://bower.io): `bower install jquery-pjaxr`.

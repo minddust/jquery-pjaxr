@@ -1,5 +1,5 @@
 /*!
-* jquery.pjaxr.js v1.0.3 by @minddust
+* jquery.pjaxr.js v1.0.4 by @minddust
 * Copyright (c) 2013 Stephan Gross
 *
 * https://www.minddust.com/jquery-pjaxr
@@ -51,8 +51,7 @@
         var defaults = {
             url: $.isFunction(link.href) ? link.href() : link.href,
             type: 'GET',  // always GET since we currently not support other methods
-            dataType: 'html',
-            target: link
+            dataType: 'html'
         };
 
         var opts = fnPjaxR.options = $.extend(true, {}, $.ajaxSettings, defaults, $.fn.pjaxr.defaults, options);
@@ -135,6 +134,7 @@
                 locationReplace(opts.url);
                 return;
             }
+            fire('pjaxr:success', [data, textStatus, jqXHR, opts]);
 
             // Clear out any focused controls before inserting new page contents.
             document.activeElement.blur();
@@ -361,7 +361,7 @@
 
     // helper to trigger jQuery events
     function fire(type, args) {
-        var event = $.Event(type, { relatedTarget: fnPjaxR.options.target });
+        var event = $.Event(type);
         $(document).trigger(event, args);
         return !event.isDefaultPrevented();
     }

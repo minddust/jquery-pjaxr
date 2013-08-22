@@ -1,6 +1,7 @@
-# Master
+# 1.0.4 (2013-08-22)
 
 * Add contributors list
+* Fix missing related target #6
 
 # 1.0.3 (2013-08-22)
 
