@@ -28,7 +28,7 @@ There is already an awesome plugin called [jquery-pjax](https://github.com/defun
 
 ## Installation
 
-* Download the latest release: [v1.0.2](https://github.com/minddust/jquery-pjaxr/archive/v1.0.2.zip)
+* Download the latest release: [v1.0.3](https://github.com/minddust/jquery-pjaxr/archive/v1.0.3.zip)
 * Clone the repository: `git clone git@github.com:minddust/jquery-pjaxr.git`.
 * Curl the library: `curl -O https://raw.github.com/minddust/jquery-pjaxr/master/jquery.pjaxr.min.js`
 * Install with [Bower](http://bower.io): `bower install jquery-pjaxr`.
@@ -69,11 +69,9 @@ If you are migrating an existing site you probably don't want to enable pjaxr ev
 
 ### data-pjaxr-namespace
 
-There is also the possibility to add a `data-pjaxr-namespace` to the link which will then be set as `X-PJAX-NAMESPACE` of the request header.  If it's not set, the namespace of the initialise options will be used.
+There is also the possibility to add a `data-pjaxr-namespace` to the body which will then be set as `X-PJAX-NAMESPACE` in the request header.  This is just for initialising the namespace - Any further values should come from pjaxr responses via `<pjaxr-namespace>`.
 
-By passing the namespace it's possible to limit the replacement area on the server side.  There is already an awesome library which makes use of this and will be released in a few days.
-
-Stay tuned!  :tada:
+By passing the namespace it's possible to limit the replacement area on the server side.  There is already an awesome library which makes use of this and will be released in a few days.  Stay tuned!  :tada:
 
 
 ## Settings
@@ -85,7 +83,6 @@ Of course there are some options which will change your pjaxr behavior:
 * `replace`: determines whether to replace the history state or not. will be ignored if `push` is `true`. (default: `false`)
 * `scrollTo`: position in pixel the to scroll after pjaxring. (default: `0`)
 * `version`: delivered pjaxr version. used to compare with `X-PJAX-VERSION` of the response header to force hard load on mismatch. (default: `<meta http-equiv="X-PJAX-VERSION" content="...">`)
-* `namespace`: will be passed via `X-PJAX-NAMESPACE` in the request header (if it's set) to handle additional server side logic. (default: `undefined`)
 
 You can either pass them as a second parameter on your `pjaxr` call or override them globally via `$.fn.pjaxr.defaults`.
 
@@ -107,7 +104,8 @@ All events are fired from the document, cause the actions concern the whole page
 * `pjaxr:beforeSend` - Fired before the pjaxr request begins. Preventing this event will abort the request.
 * `pjaxr:send` - Fired after the pjaxr request begins.
 * `pjaxr:always` - Fired after the pjaxr request finishes.
-* `pjaxr:done` - Fired after the pjaxr request succeeds.
+* `pjaxr:success` - Fired after the pjaxr request succeeds.
+* `pjaxr:done` - Fired after the pjaxr request is processed successfully.
 * `pjaxr:fail` - Fired after the pjaxr request fails. Preventing this event will disable fallback redirect.
 * `pjaxr:timeout` - Fired if after timeout is reached. Preventing this event will disable the fallback and will wait indefinitely until the response returns.
 
@@ -140,6 +138,7 @@ Check if the request header have **X-PAX** set and return rendered html in like 
     <... id="..." ...></...>
     <... id="..." ...></...>
 </pjaxr-body>
+<pjaxr-namespace>...</pjaxr-namespace>
 ```
 
 * `pjaxr-head` and `pjaxr-body` are optional but if both are missing, pjaxr will hard load the giving url.
@@ -152,6 +151,7 @@ Check if the request header have **X-PAX** set and return rendered html in like 
     * `data-remove-on-pjaxr` can the written to any tag and will force the element to be removed with the next pjaxr request.
 * `pjaxr-body`
     * every child must have an id.
+* `pjaxr-namespace` is optional but when given - it's value will be passed on further request via `X-PJAX-NAMESPACE`.
 * any other content will be ignored.
 
 

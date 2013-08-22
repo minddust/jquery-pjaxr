@@ -1,5 +1,5 @@
 /*!
-* jquery.pjaxr.js v1.0.2 by @minddust
+* jquery.pjaxr.js v1.0.3 by @minddust
 * Copyright (c) 2013 Stephan Gross
 *
 * https://www.minddust.com/jquery-pjaxr
@@ -71,10 +71,10 @@
 
             xhr.setRequestHeader('X-PJAX', 'true');
 
-            var namespace = link.data('pjaxr-namespace') || opts.namespace;
-            if (namespace) {
-                xhr.setRequestHeader('X-PJAX-NAMESPACE', namespace);
+            if (!namespace) {
+                namespace = $('body').data('pjaxr-namespace') || '';
             }
+            xhr.setRequestHeader('X-PJAX-NAMESPACE', namespace);
 
             if (settings.timeout > 0) {
                 timeoutTimer = setTimeout(function () {
@@ -116,6 +116,8 @@
         }
 
         xhr.done(function(data, textStatus, jqXHR) {
+            fire('pjaxr:success', [opts]);
+
             var currentVersion = (typeof opts.version === 'function') ? opts.version() : opts.version;
             var latestVersion = jqXHR.getResponseHeader('X-PJAX-Version');
 
@@ -152,6 +154,11 @@
                 var body_parts = processPjaxBody($body.children());
                 var apply_body_parts = body_parts[0];
                 var revert_body_parts = body_parts[1];
+            }
+
+            var namespace_match = data.match(/<pjaxr-namespace>([\s\S.]*)<\/pjaxr-namespace>/i);
+            if (namespace_match) {
+                namespace = $(parseHTML(namespace_match[0])).html();
             }
 
             // FF bug: Won't autofocus fields that are inserted via JS.
@@ -428,6 +435,7 @@
     var initialPop = true;
     var initialURL = window.location.href;
     var initialState = window.history.state;
+    var namespace;
 
     // initialize $.fnPjaxR.state if possible
     // happens when reloading a page and coming forward from a different session history.

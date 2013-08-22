@@ -1,3 +1,9 @@
+# 1.0.3 (2013-08-22)
+
+* Add `success` signal
+* Add `pjaxr-namespace` handling
+* Fix total brick in 1.0.2 (wrong jQuery selector caused script to stop)
+
 # 1.0.2 (2013-08-21)
 
 * Add support to pass pjaxr namespace
