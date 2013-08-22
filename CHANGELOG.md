@@ -1,3 +1,7 @@
+# Master
+
+* Add contributors list
+
 # 1.0.3 (2013-08-22)
 
 * Add `success` signal
