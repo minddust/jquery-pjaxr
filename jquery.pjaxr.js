@@ -1,5 +1,5 @@
 /*!
-* jquery.pjaxr.js v1.0.4 by @minddust
+* jQuery.pjaxR  v1.0.4 by @minddust
 * Copyright (c) 2013 Stephan Gross
 *
 * https://www.minddust.com/jquery-pjaxr
@@ -20,7 +20,7 @@
         var link = event.currentTarget;
 
         if (link.tagName.toUpperCase() !== 'A') {
-            throw '$.fn.pjaxXR requires an anchor element';
+            throw '$.fn.pjaxr requires an anchor element';
         }
 
         // middle click, cmd click, and ctrl click should open links in a new tab as normal.
@@ -418,6 +418,7 @@
             }
 
             fnPjaxR.state = state;
+            namespace = state.namespace;
 
             // force reflow / relayout before the browser tries to restore the scroll position.
             document.body.offsetHeight;
