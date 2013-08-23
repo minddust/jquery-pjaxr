@@ -1,3 +1,7 @@
+# Master
+
+* Fix namespace replacement on popstate
+
 # 1.0.4 (2013-08-22)
 
 * Add contributors list

@@ -61,6 +61,10 @@
             return;
         }
 
+        if (!namespace) {
+            namespace = $('body').data('pjaxr-namespace') || '';
+        }
+
         var timeoutTimer;
 
         opts.beforeSend = function(xhr, settings) {
@@ -69,10 +73,6 @@
             }
 
             xhr.setRequestHeader('X-PJAX', 'true');
-
-            if (!namespace) {
-                namespace = $('body').data('pjaxr-namespace') || '';
-            }
             xhr.setRequestHeader('X-PJAX-NAMESPACE', namespace);
 
             if (settings.timeout > 0) {
@@ -93,6 +93,7 @@
         if (!fnPjaxR.state) {
             fnPjaxR.state = {
                 id: uniqueId(),
+                namespace: namespace,
                 url: window.location.href,
                 title: document.title
             };
@@ -184,6 +185,7 @@
 
             fnPjaxR.state = {
                 id: stateId,
+                namespace: namespace,
                 url: opts.url,
                 title: document.title,
                 head_apply: head_match ? apply_head_parts : null,
