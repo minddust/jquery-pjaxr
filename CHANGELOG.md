@@ -1,5 +1,7 @@
-# Master
+# 1.0.5 (2013-08-27)
 
+* Add pure request calls
+* Remove options from pjaxr:click event
 * Fix namespace replacement on popstate
 
 # 1.0.4 (2013-08-22)

@@ -28,7 +28,7 @@ There is already an awesome plugin called [jquery-pjax](https://github.com/defun
 
 ## Installation
 
-* Download the latest release: [v1.0.4](https://github.com/minddust/jquery-pjaxr/archive/v1.0.4.zip)
+* Download the latest release: [v1.0.5](https://github.com/minddust/jquery-pjaxr/archive/v1.0.5.zip)
 * Clone the repository: `git clone git@github.com:minddust/jquery-pjaxr.git`.
 * Curl the library: `curl -O https://raw.github.com/minddust/jquery-pjaxr/master/jquery.pjaxr.min.js`
 * Install with [Bower](http://bower.io): `bower install jquery-pjaxr`.
@@ -55,7 +55,7 @@ if ($.support.pjaxr) {
 }
 ```
 
-Or - you can call the click handler by yourself and wrap it with some additional start functionality like this:
+Or you can call the click handler by yourself and wrap it with some additional start functionality like this:
 
 ```javascript
 if ($.support.pjaxr) {
@@ -63,6 +63,12 @@ if ($.support.pjaxr) {
         $(document).pjaxr.click(event);
     });
 }
+```
+
+Or you can make a pjaxr request by pure calling:
+
+```javascript
+$(document).pjaxr.request('/about/', {timeout: 1337});
 ```
 
 If you are migrating an existing site you probably don't want to enable pjaxr everywhere just yet.  Instead of using a global selector like `a` try annotating pjaxrable links with `data-pjaxr`, then use `'a[data-pjaxr]'` as your selector.

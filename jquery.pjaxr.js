@@ -17,8 +17,9 @@
     }
 
     function request(link, options) {
-        if (typeof link == "string") {
-            var link_element = document.createElement("a");
+        // enables pure request calls
+        if (typeof link === 'string') {
+            var link_element = document.createElement('A');
             link_element.href = link;
             link = link_element;
         }
@@ -224,7 +225,7 @@
             return;
         }
 
-        if (!fire('pjaxr:click', [opts])) {
+        if (!fire('pjaxr:click')) {
             event.preventDefault();
             return;
         }
