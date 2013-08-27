@@ -16,21 +16,15 @@
         });
     }
 
-    function handleClick(event, options) {
-        var link = event.currentTarget;
+    function request(link, options) {
+        if (typeof link == "string") {
+            var link_element = document.createElement("a");
+            link_element.href = link;
+            link = link_element;
+        }
 
         if (link.tagName.toUpperCase() !== 'A') {
             throw '$.fn.pjaxr requires an anchor element';
-        }
-
-        // middle click, cmd click, and ctrl click should open links in a new tab as normal.
-        if (event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
-            return;
-        }
-
-        // ignore prevented links
-        if (event.isDefaultPrevented()) {
-            return;
         }
 
         // ignore cross origin links
@@ -55,11 +49,6 @@
         };
 
         var opts = fnPjaxR.options = $.extend(true, {}, $.ajaxSettings, defaults, $.fn.pjaxr.defaults, options);
-
-        if (!fire('pjaxr:click', [opts])) {
-            event.preventDefault();
-            return;
-        }
 
         if (!namespace) {
             namespace = $('body').data('pjaxr-namespace') || '';
@@ -216,6 +205,31 @@
             fire('pjaxr:always', [opts]);
             fire('pjaxr:end', [opts]);
         });
+    }
+
+    function handleClick(event, options) {
+        var link = event.currentTarget;
+
+        if (link.tagName.toUpperCase() !== 'A') {
+            throw '$.fn.pjaxr requires an anchor element';
+        }
+
+        // middle click, cmd click, and ctrl click should open links in a new tab as normal.
+        if (event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+            return;
+        }
+
+        // ignore prevented links
+        if (event.isDefaultPrevented()) {
+            return;
+        }
+
+        if (!fire('pjaxr:click', [opts])) {
+            event.preventDefault();
+            return;
+        }
+
+        request(link, options);
 
         event.preventDefault();
     }
@@ -460,6 +474,7 @@
     function enable() {
         $.fn.pjaxr = fnPjaxR;
         $.fn.pjaxr.click = handleClick;
+        $.fn.pjaxr.request = request;
         $.fn.pjaxr.enable = $.noop;
         $.fn.pjaxr.disable = disable;
         $.fn.pjaxr.defaults = {
