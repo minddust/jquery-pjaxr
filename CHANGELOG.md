@@ -1,3 +1,7 @@
+# 1.0.6 (2013-08-31)
+
+* Fix #8 by adding try-catch block in body processing
+
 # 1.0.5 (2013-08-27)
 
 * Add pure request calls

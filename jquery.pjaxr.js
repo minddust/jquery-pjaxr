@@ -1,5 +1,5 @@
 /*!
-* jquery.pjaxr  v1.0.5 by @minddust
+* jquery.pjaxr  v1.0.6 by @minddust
 * Copyright (c) 2013 Stephan Gross
 *
 * https://www.minddust.com/jquery-pjaxr
@@ -10,7 +10,7 @@
 (function($) {
     'use strict';
 
-    function fnPjaxR(selector, options) {
+    function fnPjaxr(selector, options) {
         return this.on('click.pjaxr', selector, function(event) {
             handleClick(event, options);
         });
@@ -49,7 +49,7 @@
             dataType: 'html'
         };
 
-        var opts = fnPjaxR.options = $.extend(true, {}, $.ajaxSettings, defaults, $.fn.pjaxr.defaults, options);
+        var opts = fnPjaxr.options = $.extend(true, {}, $.ajaxSettings, defaults, $.fn.pjaxr.defaults, options);
 
         if (!namespace) {
             namespace = $('body').data('pjaxr-namespace') || '';
@@ -80,17 +80,17 @@
         };
 
         // create pjax state for initial page load
-        if (!fnPjaxR.state) {
-            fnPjaxR.state = {
+        if (!fnPjaxr.state) {
+            fnPjaxr.state = {
                 id: uniqueId(),
                 namespace: namespace,
                 url: window.location.href,
                 title: document.title
             };
-            window.history.replaceState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
+            window.history.replaceState(fnPjaxr.state, fnPjaxr.state.title, fnPjaxr.state.url);
         }
 
-        var xhr = fnPjaxR.xhr;
+        var xhr = fnPjaxr.xhr;
 
         // cancel the current running pjax request if there is one
         if (xhr && xhr.readyState < 4) {
@@ -99,7 +99,7 @@
         }
 
         // go-go-pjax
-        xhr = fnPjaxR.xhr = $.ajax(opts);
+        xhr = fnPjaxr.xhr = $.ajax(opts);
 
         if (xhr.readyState > 0) {
             fire('pjaxr:start', [opts]);
@@ -134,7 +134,7 @@
 
             if (head_match) {
                 var $head = $(parseHTML(head_match[0]));
-                var head_parts = processPjaxHead('forward', $head.children(), null, null);
+                var head_parts = processPjaxrHead('forward', $head.children(), null, null);
                 var apply_head_parts = head_parts[0];
                 var revert_head_parts = head_parts[1];
                 var remove_head_parts = head_parts[2];
@@ -142,7 +142,7 @@
 
             if (body_match) {
                 var $body = $(parseHTML(body_match[0]));
-                var body_parts = processPjaxBody($body.children());
+                var body_parts = processPjaxrBody($body.children());
                 var apply_body_parts = body_parts[0];
                 var revert_body_parts = body_parts[1];
             }
@@ -164,16 +164,16 @@
             }
 
             // enrich current state information with removal instructions
-            $.extend(fnPjaxR.state, {
+            $.extend(fnPjaxr.state, {
                 head_revert: head_match ? revert_head_parts : null,
                 head_remove: head_match ? remove_head_parts : null,
                 body_revert: body_match ? revert_body_parts : null
             });
             if (opts.push || opts.replace) {
-                window.history.replaceState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
+                window.history.replaceState(fnPjaxr.state, fnPjaxr.state.title, fnPjaxr.state.url);
             }
 
-            fnPjaxR.state = {
+            fnPjaxr.state = {
                 id: stateId,
                 namespace: namespace,
                 url: opts.url,
@@ -183,10 +183,10 @@
             };
 
             if (opts.push) {
-                window.history.pushState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
+                window.history.pushState(fnPjaxr.state, fnPjaxr.state.title, fnPjaxr.state.url);
             }
             else if (opts.replace) {
-                window.history.replaceState(fnPjaxR.state, fnPjaxR.state.title, fnPjaxR.state.url);
+                window.history.replaceState(fnPjaxr.state, fnPjaxr.state.title, fnPjaxr.state.url);
             }
 
             fire('pjaxr:done', [data, textStatus, jqXHR, opts]);
@@ -235,7 +235,7 @@
         event.preventDefault();
     }
 
-    function processPjaxHeadElements(elements, append) {
+    function processPjaxrHeadElements(elements, append) {
         var apply_head_parts = [];
         var revert_head_parts = [];
         var remove_head_parts = [];
@@ -324,7 +324,7 @@
         return [apply_head_parts, revert_head_parts, remove_head_parts];
     }
 
-    function processPjaxHead(direction, apply_elements, revert_elements, remove_elements) {
+    function processPjaxrHead(direction, apply_elements, revert_elements, remove_elements) {
         var apply_head_parts = [];
         var revert_head_parts = [];
         var remove_head_parts = [];
@@ -338,15 +338,15 @@
             });
         }
         else if (direction === 'back') {
-            var revert_result = processPjaxHeadElements(revert_elements, false);
-            var remove_result = processPjaxHeadElements(remove_elements, true);
+            var revert_result = processPjaxrHeadElements(revert_elements, false);
+            var remove_result = processPjaxrHeadElements(remove_elements, true);
 
             // there are no apply elements on back processing
             $.extend(revert_head_parts, revert_result[1]);
             $.extend(remove_head_parts, remove_result[2]);
         }
 
-        var apply_result = processPjaxHeadElements(apply_elements, true);
+        var apply_result = processPjaxrHeadElements(apply_elements, true);
         $.extend(apply_head_parts, apply_result[0]);
         $.extend(revert_head_parts, apply_result[1]);
         $.extend(remove_head_parts, apply_result[2]);
@@ -354,7 +354,7 @@
         return [apply_head_parts, revert_head_parts, remove_head_parts];
     }
 
-    function processPjaxBody(elements) {
+    function processPjaxrBody(elements) {
         var apply_body_parts = [];
         var revert_body_parts = [];
 
@@ -366,7 +366,14 @@
                     var $target = $('#'+id);
                     if ($target.length > 0) {
                         revert_body_parts.push(outerHTML($target));
-                        $target.html($value.html());
+                        try {
+                            $target.html($value.html());
+                        }
+                        catch (error) {
+                            if (window.console) {
+                                console.error(error);
+                            }
+                        }
                         apply_body_parts.push(outerHTML($target));
                     }
                 }
@@ -406,7 +413,7 @@
     }
 
     // takes care of the back and forward functionality
-    function onPjaxRPopstate(event) {
+    function onPjaxrPopstate(event) {
         var state = event.state;
 
         if (state) {
@@ -416,29 +423,29 @@
                 return;
             }
 
-            fire('pjaxr:start', [fnPjaxR.options]);
+            fire('pjaxr:start', [fnPjaxr.options]);
 
             // title is always set, no check
             document.title = state.title;
 
             // determine whether to go back or forth
-            var direction = fnPjaxR.state.id < state.id ? 'forward' : 'back';
+            var direction = fnPjaxr.state.id < state.id ? 'forward' : 'back';
 
             // null check inside
-            processPjaxHead(direction, state.head_apply, state.head_revert, state.head_remove);
+            processPjaxrHead(direction, state.head_apply, state.head_revert, state.head_remove);
 
             var body = direction === 'forward' ? state.body_apply : state.body_revert;
             if (body && body.length > 0) {
-                processPjaxBody(body);
+                processPjaxrBody(body);
             }
 
-            fnPjaxR.state = state;
+            fnPjaxr.state = state;
             namespace = state.namespace;
 
             // force reflow / relayout before the browser tries to restore the scroll position.
             document.body.offsetHeight;
 
-            fire('pjaxr:end', [fnPjaxR.options]);
+            fire('pjaxr:end', [fnPjaxr.options]);
         }
         initialPop = false;
     }
@@ -455,10 +462,10 @@
     var initialState = window.history.state;
     var namespace;
 
-    // initialize $.fnPjaxR.state if possible
+    // initialize $.fnPjaxr.state if possible
     // happens when reloading a page and coming forward from a different session history.
     if (initialState) {
-        fnPjaxR.state = initialState;
+        fnPjaxr.state = initialState;
     }
 
     // non-webkit browsers don't fire an initial popstate event
@@ -473,7 +480,7 @@
 
     // enables pushState behavior
     function enable() {
-        $.fn.pjaxr = fnPjaxR;
+        $.fn.pjaxr = fnPjaxr;
         $.fn.pjaxr.click = handleClick;
         $.fn.pjaxr.request = request;
         $.fn.pjaxr.enable = $.noop;
@@ -485,7 +492,7 @@
             scrollTo: 0,
             version: findVersion
         };
-        $(window).on('popstate.pjaxr', onPjaxRPopstate);
+        $(window).on('popstate.pjaxr', onPjaxrPopstate);
     }
 
     // disable pushState behavior
@@ -493,7 +500,7 @@
         $.fn.pjaxr = function() { return this; };
         $.fn.pjaxr.enable = enable;
         $.fn.pjaxr.disable = $.noop;
-        $(window).off('popstate.pjaxr', onPjaxRPopstate);
+        $(window).off('popstate.pjaxr', onPjaxrPopstate);
     }
 
     // is pjax supported by this browser?
