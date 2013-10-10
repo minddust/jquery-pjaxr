@@ -77,7 +77,7 @@ If you are migrating an existing site you probably don't want to enable pjaxr ev
 
 There is also the possibility to add a `data-pjaxr-namespace` to the body which will then be set as `X-PJAX-NAMESPACE` in the request header.  This is just for initialising the namespace - Any further values should come from pjaxr responses via `<pjaxr-namespace>`.
 
-By passing the namespace it's possible to limit the replacement area on the server side.  There is already an awesome library which makes use of this and will be released in a few days: [django-pjaxr](https://github.com/iekadou/django-pjaxr)
+By passing the namespace it's possible to limit the replacement area on the server side.  Checkout existing pjaxr libraries below.
 
 
 ## Settings
@@ -161,7 +161,14 @@ Check if the request header have **X-PAX** set and return rendered html in like 
 * any other content will be ignored.
 
 
-### Existing Server Side Libraries
+### Existing Pjaxr Server Side Libraries
+
+These libs are making use of the advanced pjaxr namespacing functionality:
+
+* Django: https://github.com/iekadou/django-pjaxr
+
+
+### Existing Pjax Server Side Libraries
 
 There are many available plugins for different languages and frameworks which will lift the heavy work for you:
 
