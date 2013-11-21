@@ -1,8 +1,8 @@
 /*!
-* jquery.pjaxr  v1.0.6 by @minddust
+* jquery.pjaxr v1.1.0 by @minddust
 * Copyright (c) 2013 Stephan Gross
 *
-* https://www.minddust.com/jquery-pjaxr
+* https://www.minddust.com/project/jquery-pjaxr
 *
 * Licensed under the MIT license:
 * http://www.opensource.org/licenses/MIT
@@ -28,8 +28,8 @@
             throw '$.fn.pjaxr requires an anchor element';
         }
 
-        // ignore cross origin links
-        if (location.protocol !== link.protocol || location.hostname !== link.hostname) {
+        // ignore cross origin links and pass relative IE links (cause they IE can't do code)
+        if ((location.protocol !== link.protocol || location.hostname !== link.hostname) && !(link.protocol === ':' && link.hostname === '')) {
             return;
         }
 

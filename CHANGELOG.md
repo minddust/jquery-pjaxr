@@ -1,3 +1,7 @@
+# 1.1.0 (2013-11-21)
+
+* Fix #10 cross origin checks for low IE versions
+
 # 1.0.6 (2013-08-31)
 
 * Fix #8 by adding try-catch block in body processing
@@ -11,7 +15,7 @@
 # 1.0.4 (2013-08-22)
 
 * Add contributors list
-* Fix missing related target #6
+* Fix #6 missing related target
 
 # 1.0.3 (2013-08-22)
 
