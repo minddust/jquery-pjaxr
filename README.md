@@ -117,7 +117,7 @@ All events are fired from the document, cause the actions concern the whole page
 
 `send` and `complete` are a good pair of events to use if you are implementing a loading indicator. They'll only be triggered if an actual request is made, not if it's loaded from cache.
 
-``` javascript
+```javascript
 $(document).on('pjaxr:send', function() {
   $('#loading').show()
 })
@@ -185,7 +185,7 @@ There are many available plugins for different languages and frameworks which wi
 
 ## Sites using jquery-pjaxr
 
-If you are using this library and want to get listed below.  Please let me know.  Just make a pull request or write me an <a href="http://www.google.com/recaptcha/mailhide/d?k=013hG570A7Q8W8N-mLwG_KYA==&amp;c=Si_w84-xzI8tECjbipjghuMGRCyZRSrgBkV5ZFp61IY=" title="Reveal my email address" target="_blank">email</a>.
+If you are using this library and want to get listed below.  Please let me know.  Just make a pull request or write me an [email](http://www.google.com/recaptcha/mailhide/d?k=013hG570A7Q8W8N-mLwG_KYA==&amp;c=Si_w84-xzI8tECjbipjghuMGRCyZRSrgBkV5ZFp61IY= "Reveal my email address").
 
 * https://www.socialfunders.org
 * https://www.minddust.com
