@@ -14,7 +14,7 @@ Shortly after starting with pjax a ran into some limitations like:
 * how to add additional head elements?
 * how to update multiple containers?
 
-I started writing a workaround which became an own library and here we are :). 
+I started writing a workaround which became an own library and here we are :).
 
 I hope pjaxr will help people who are running into the same problems like I did.
 
@@ -23,7 +23,7 @@ I hope pjaxr will help people who are running into the same problems like I did.
 
 There is already an awesome plugin called [jquery-pjax](https://github.com/defunkt/jquery-pjax) on which this project is based.  For not breaking existing frontends but to support the same port to the server this library is named **pjaxr** and accepts the same header **X-PJAX**.
 
-> There are still many testcases missing but the most signicant are setup. pr's are welcome.
+> There are still many testcases missing but the most signicant are setup. PR's are welcome.
 
 
 ## Installation
@@ -41,7 +41,7 @@ Requires jQuery 1.8.x or higher.
 
 ## Usage
 
-``` javascript
+```javascript
 $(document).pjaxr('a');
 ```
 
@@ -208,11 +208,11 @@ You may need to install **flask** to run the `app.py` and **phantomjs** to start
 
 ## Thanks
 
-I like to thank [Chris Wanstrath :star2:](https://github.com/defunkt) for his really awesome [jquery-pjax](https://github.com/defunkt/jquery-pjax) library.  This project wouldn't exist without his work.
+I like to thank [Chris Wanstrath](https://github.com/defunkt) for his really awesome [jquery-pjax](https://github.com/defunkt/jquery-pjax) library.  This project wouldn't exist without his work.
 
 
 ## Copyright and license
 
-Copyright 2013 Stephan Groß, under [MIT license](LICENSE).
+Copyright 2013 Stephan Groß, under [MIT license](https://github.com/minddust/jquery-pjaxr/blob/master/LICENSE).
 
 Want to appreciate my work? [minddust at Gittip](https://www.gittip.com/minddust/)
