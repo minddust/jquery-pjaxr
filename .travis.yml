@@ -1,16 +1,26 @@
 language: python
+
 python:
-  - 2.7
+- '2.7'
 
-install: pip install flask==0.10.1
+env:
+  global:
+  - secure: GIZt8Nas050nsHHeje1s7P3bSpVJlBtz2SRQZPqFd6rqOLpkkJ6LVlFLCoUJXMdkshX3ZdrPcqtyg3tvI/2dnAC/fACTEIMysBgMOW4LVt/+se05hmGDbsSPgJHkOzvDz6G2csMBLWDHdEQvGGNWn9rVHY3UhWnhDX6L33mbK14=
+  - secure: p2Q/X4bQII4cQV71XKF5OBhvvIBDAmI4BFl+3has/z2R8bOTBm1b5vEIem4/hRTRJ9ZP2VHo/IpGgy8mpBF7oiVdMuW6cj0lLJIE5Pm6l89oCPg3ZknGV03WUbkZhs48XZ1f44boUaZ1HZYR57wCfHpj7EzSn1I2BwgCjGUdZNg=
+  - secure: QquNuAC5GXB56MgtTMflnZVsuyZPkWdVvFnpCF3NI4ODQPbaZKzCeQvEFXACEIv/mHEkK3OqzwaPrDEywfOWUMswLXdLx1rggbEy/5bETA5KhPrTibDqvqJygUitzaPvEtN2ldxtqyWqwDWKClklPoZQJ+evHBJuQaimPFFi47o=
 
-before_script:
-  - "export DISPLAY=:99.0"  # http://about.travis-ci.org/docs/user/gui-and-headless-browsers/
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3  # give xvfb some time to start
-  - python ./tests/app.py 2>/dev/null &
+install:
+- pip install Django==1.6.2
+- pip install django-pjaxr==1.0.1
+- pip install selenium==2.40.0
+- npm install
+- npm run-script prepare-tests
+- cd test_app
+- npm install
+- npm run-script bower-install
 
-script: phantomjs ./tests/run-qunit.js "http://localhost:5000/"
+script:
+- python test_app/runtests/runtests.py
 
 notifications:
   email: false

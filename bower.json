@@ -8,6 +8,6 @@
     "ignore": [
         ".travis.yml",
         ".gitignore",
-        "tests"
+        "test_app"
     ]
 }

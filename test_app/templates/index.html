@@ -1,0 +1,12 @@
+{% pjaxr_extends '__base.html' 'md' %}
+
+{% block title %}index-title{% endblock title %}
+
+{% block page %}
+    <div id="page">
+        {% include '_menu.html' with menu_index=True %}
+        <div id="content">index-content</div>
+    </div>
+{% endblock page %}
+
+{% block pjaxr_namespace %}md.index{% endblock pjaxr_namespace %}

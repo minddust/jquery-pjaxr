@@ -1,0 +1,12 @@
+<pjaxr-head>
+    <title>{% block title %}{% endblock title %}</title>
+    {% block inner_head %}{% endblock inner_head %}
+</pjaxr-head>
+<pjaxr-body>
+    {% block site %}
+        {% block page %}
+            {% block content %}{% endblock content %}
+        {% endblock page %}
+    {% endblock site %}
+</pjaxr-body>
+<pjaxr-namespace>{% block pjaxr_namespace %}{% endblock pjaxr_namespace %}</pjaxr-namespace>
