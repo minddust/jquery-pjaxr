@@ -2,6 +2,5 @@
 build/
 node_modules/
 
-Gulpfile.js
 npm-debug.log
 package.json
