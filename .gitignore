@@ -1,6 +1,7 @@
 .idea/
 build/
 node_modules/
-Gruntfile.js
+
+Gulpfile.js
 npm-debug.log
 package.json
