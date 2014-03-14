@@ -20,7 +20,7 @@ install:
 - npm run-script bower-install
 
 script:
-- python test_app/runtests/runtests.py
+- python test_app/tests/runtests.py
 
 notifications:
   email: false
