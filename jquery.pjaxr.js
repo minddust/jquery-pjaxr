@@ -79,7 +79,7 @@
             return true;
         };
 
-        // create pjax state for initial page load
+        // create pjaxr state for initial page load
         if (!fnPjaxr.state) {
             fnPjaxr.state = {
                 id: uniqueId(),
@@ -92,13 +92,13 @@
 
         var xhr = fnPjaxr.xhr;
 
-        // cancel the current running pjax request if there is one
+        // cancel the current running pjaxr request if there is one
         if (xhr && xhr.readyState < 4) {
             xhr.onreadystatechange = $.noop;
             xhr.abort();
         }
 
-        // go-go-pjax
+        // go-go-pjaxr
         xhr = fnPjaxr.xhr = $.ajax(opts);
 
         if (xhr.readyState > 0) {
@@ -450,7 +450,7 @@
         initialPop = false;
     }
 
-    // helper to extract pjax version from head meta tag
+    // helper to extract pjaxr version from head meta tag
     function findVersion() {
         return $('meta').filter(function() {
             return String($(this).attr('http-equiv')).toUpperCase() === 'X-PJAX-VERSION';
@@ -503,10 +503,10 @@
         $(window).off('popstate.pjaxr', onPjaxrPopstate);
     }
 
-    // is pjax supported by this browser?
+    // is pjaxr supported by this browser?
     $.support.pjaxr = window.history && window.history.pushState && window.history.replaceState &&
         // pushState isn't reliable on iOS until 5
         !navigator.userAgent.match(/((iPod|iPhone|iPad).+\bOS\s+[1-4]|WebApps\/.+CFNetwork)/);
-    // initial executes enable / disable pjax when the script gets loaded
+    // initial executes enable / disable pjaxr when the script gets loaded
     $.support.pjaxr ? enable() : disable();
 })(jQuery);

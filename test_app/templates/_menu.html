@@ -1,0 +1,5 @@
+<ul>
+    <li {% if menu_index %}class="active"{% endif %}><a id="index-link" href="{% url 'index' %}" data-pjaxr>index</a></li>
+    <li {% if menu_project %}class="active"{% endif %}><a id="project-link" href="{% url 'project' %}" data-pjaxr>project</a></li>
+    <li {% if menu_about %}class="active"{% endif %}><a id="about-link" href="{% url 'about' %}" data-pjaxr>about</a></li>
+</ul>

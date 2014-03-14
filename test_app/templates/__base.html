@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock title %}</title>
+        <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'jquery.pjaxr.js' %}"></script>
+    </head>
+    <body data-pjaxr-namespace="{% block pjaxr_namespace %}{% endblock pjaxr_namespace %}">
+        {% block site %}
+            <div id="site">
+                {% block page %}{% endblock page %}
+            </div>
+        {% endblock site %}
+        <script type="text/javascript">
+            $(document).ready(function() {
+                if ($.support.pjaxr) {
+                    $(document).on('click', 'a[data-pjaxr]', function(event) {
+                        $(document).pjaxr.click(event);
+                    });
+                }
+
+                $(document).on('pjaxr:click', function() { $('body').attr('js-pjaxr-click', 'true'); });
+                $(document).on('pjaxr:beforeSend', function() { $('body').attr('js-pjaxr-before-send', 'true'); });
+                $(document).on('pjaxr:send', function() { $('body').attr('js-pjaxr-send', 'true'); });
+                $(document).on('pjaxr:timeout', function() { $('body').attr('js-pjaxr-timeout', 'true'); });
+                $(document).on('pjaxr:start', function() { $('body').attr('js-pjaxr-start', 'true'); });
+                $(document).on('pjaxr:success', function() { $('body').attr('js-pjaxr-success', 'true'); });
+                $(document).on('pjaxr:done', function() { $('body').attr('js-pjaxr-done', 'true'); });
+                $(document).on('pjaxr:fail', function() { $('body').attr('js-pjaxr-fail', 'true'); });
+                $(document).on('pjaxr:always', function() { $('body').attr('js-pjaxr-always', 'true'); });
+                $(document).on('pjaxr:end', function() { $('body').attr('js-pjaxr-end', 'true'); });
+
+                $.fn.removeAttrs = function(regex) {
+                    return this.each(function() {
+                        var $this = $(this);
+                        var names = [];
+                        $.each(this.attributes, function(i, attr) {
+                            if (attr.specified && regex.test(attr.name)) {
+                                names.push(attr.name);
+                            }
+                        });
+                        $.each(names, function(i, name) {
+                            $this.removeAttr(name);
+                        });
+                    });
+                };
+            });
+        </script>
+    </body>
+</html>

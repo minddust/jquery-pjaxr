@@ -1,0 +1,11 @@
+{
+  "name": "jquery.pjaxr.tests",
+  "version": "0.0.1",
+  "authors": [
+    "Stephan Groß"
+  ],
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.0"
+  }
+}

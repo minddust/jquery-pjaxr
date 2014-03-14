@@ -1,0 +1,12 @@
+{% pjaxr_extends '__base.html' 'md' %}
+
+{% block title %}about-title{% endblock title %}
+
+{% block page %}
+    <div id="page">
+        {% include '_menu.html' with menu_about=True %}
+        <div id="content">about-content</div>
+    </div>
+{% endblock page %}
+
+{% block pjaxr_namespace %}md.about{% endblock pjaxr_namespace %}

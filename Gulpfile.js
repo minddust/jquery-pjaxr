@@ -23,4 +23,9 @@ gulp.task('clean', function() {
         .pipe(clean());
 });
 
+gulp.task('prepare-tests', function() {
+    return gulp.src('./jquery.pjaxr.js')
+        .pipe(gulp.dest('./test_app/static/'))
+});
+
 gulp.task('default', ['clean', 'scripts']);

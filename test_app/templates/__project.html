@@ -1,0 +1,10 @@
+{% pjaxr_extends '__base.html' 'md' %}
+
+{% block page %}
+    <div id="page">
+        {% include '_menu.html' with menu_project=True %}
+        {% block content %}{% endblock content %}
+    </div>
+{% endblock page %}
+
+{% block pjaxr_namespace %}md.project{% endblock pjaxr_namespace %}

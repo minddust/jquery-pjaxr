@@ -1,6 +1,8 @@
 .idea/
 build/
 node_modules/
+test_app/static/
+venv/
 
+*.pyc
 npm-debug.log
-package.json
