@@ -18,6 +18,7 @@ install:
 - cd test_app
 - npm install
 - npm run-script bower-install
+- cd ..
 
 script:
 - python test_app/tests/runtests.py
