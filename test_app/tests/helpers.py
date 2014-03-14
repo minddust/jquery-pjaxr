@@ -1,6 +1,10 @@
 from __future__ import unicode_literals
 
+import base64
+import httplib
+import json
 from os import getenv
+import sys
 
 from django.test import LiveServerTestCase
 
@@ -10,35 +14,49 @@ from selenium.webdriver.support import ui
 
 class SeleniumTestCase(LiveServerTestCase):
 
-    @classmethod
-    def setUpClass(cls):
+    def setUp(self):
         if getenv('SAUCE_USERNAME'):
-            cls.browser = cls.sauce_labs_driver()
+            self.browser = self.sauce_labs_driver()
         else:
-            cls.browser = webdriver.Chrome()
-        cls.wait = ui.WebDriverWait(cls.browser, 10)
-        super(SeleniumTestCase, cls).setUpClass()
+            self.browser = webdriver.Chrome()
+        self.wait = ui.WebDriverWait(self.browser, 10)
+        super(SeleniumTestCase, self).setUp()
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.browser.quit()
-        super(SeleniumTestCase, cls).tearDownClass()
+    def tearDown(self):
+        if self.sauce_username:
+            self.report_status()
+        self.browser.quit()
+        super(SeleniumTestCase, self).tearDown()
 
-    @classmethod
-    def sauce_labs_driver(cls):
-        username = getenv('SAUCE_USERNAME')
-        access_key = getenv('SAUCE_ACCESS_KEY')
+    def sauce_labs_driver(self):
+        self.sauce_username = getenv('SAUCE_USERNAME')
+        self.sauce_access_key = getenv('SAUCE_ACCESS_KEY')
+        self.sauce_auth = base64.encodestring('{0}:{1}'.format(self.sauce_username, self.sauce_access_key))[:-1]
         caps = {
             'platform': getenv('SELENIUM_PLATFORM'),
             'browserName': getenv('SELENIUM_BROWSER'),
             'version': getenv('SELENIUM_VERSION'),
             'javascriptEnabled': getenv('SELENIUM_JAVASCRIPT', True),
             'tunnel-identifier': getenv('TRAVIS_JOB_NUMBER'),
-            'name': 'jquery-pjaxr',
+            'name': 'jquery-pjaxr-{}'.format(self._testMethodName),
             'build': getenv('TRAVIS_BUILD_NUMBER'),
         }
-        hub_url = 'http://{0}:{1}@ondemand.saucelabs.com/wd/hub'.format(username, access_key)
+        hub_url = 'http://{0}:{1}@ondemand.saucelabs.com/wd/hub'.format(self.sauce_username, self.sauce_access_key)
         return webdriver.Remote(desired_capabilities=caps, command_executor=str(hub_url))  # webdriver.Remote only accepts str - not unicode
+
+    def report_status(self):
+        info = sys.exc_info()
+        passed = info[0] is None
+
+        url = '/rest/v1/{0}/jobs/{1}'.format(self.sauce_username, self.browser.session_id)
+        data = {'passed': passed}
+        headers = {'Authorization': 'Basic {0}'.format(self.sauce_auth)}
+
+        connection = httplib.HTTPConnection('saucelabs.com')
+        connection.request('PUT', url, json.dumps(data), headers)
+        result = connection.getresponse()
+        return result.status == 200
+
 
     def assertTitle(self, title):
         self.assertEqual(self.browser.title, title)
