@@ -16,7 +16,7 @@ def main():
 
     test_runner = TestRunner()
 
-    failures = test_runner.run_tests(['test_app.tests.test_pjaxr_request'])
+    failures = test_runner.run_tests(['test_app.tests'])
 
     sys.exit(failures)
 
