@@ -1,3 +1,7 @@
+# Master
+
+* Fix #19 missing pjaxr:send event
+
 # 1.1.0 (2013-11-21)
 
 * Fix #10 cross origin checks for low IE versions
