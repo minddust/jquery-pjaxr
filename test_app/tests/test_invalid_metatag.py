@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from .helpers import SeleniumTestCase
 
 
-class PjaxrRequestTest(SeleniumTestCase):
+class PjaxrInvalidMetatagTest(SeleniumTestCase):
 
     def setUp(self):
         self.browser.get('{}/'.format(self.live_server_url))
