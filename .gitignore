@@ -6,4 +6,3 @@ venv/
 
 *.pyc
 npm-debug.log
-package.json
