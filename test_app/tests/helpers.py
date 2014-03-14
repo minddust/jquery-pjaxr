@@ -20,13 +20,13 @@ class SeleniumTestCase(LiveServerTestCase):
         else:
             self.browser = webdriver.Chrome()
         self.wait = ui.WebDriverWait(self.browser, 10)
-        super(SeleniumTestCase, self).setUpClass()
+        super(SeleniumTestCase, self).setUp()
 
     def tearDown(self):
         if self.sauce_username:
             self.report_status()
         self.browser.quit()
-        super(SeleniumTestCase, self).tearDownClass()
+        super(SeleniumTestCase, self).tearDown()
 
     def sauce_labs_driver(self):
         self.sauce_username = getenv('SAUCE_USERNAME')
