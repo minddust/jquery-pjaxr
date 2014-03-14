@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>non-pjaxr-title</title>
+        <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    </head>
+    <body>
+        <div id="site">
+            <div id="page">
+                <p>This page could be an error page, or simply a page without pjaxr-format.</p>
+                <div id="content">non-pjaxr-content</div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $.fn.removeAttrs = function(regex) {
+                    return this.each(function() {
+                        var $this = $(this);
+                        var names = [];
+                        $.each(this.attributes, function(i, attr) {
+                            if (attr.specified && regex.test(attr.name)) {
+                                names.push(attr.name);
+                            }
+                        });
+                        $.each(names, function(i, name) {
+                            $this.removeAttr(name);
+                        });
+                    });
+                };
+            });
+        </script>
+    </body>
+</html>
