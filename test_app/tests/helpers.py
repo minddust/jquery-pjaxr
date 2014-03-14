@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from os import getenv
+
 from django.test import LiveServerTestCase
 
 from selenium import webdriver
@@ -10,7 +12,10 @@ class SeleniumTestCase(LiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.browser = webdriver.Chrome()
+        if getenv('SAUCE_USERNAME'):
+            cls.browser = cls.sauce_labs_driver()
+        else:
+            cls.browser = webdriver.Chrome()
         cls.wait = ui.WebDriverWait(cls.browser, 10)
         super(SeleniumTestCase, cls).setUpClass()
 
@@ -18,6 +23,20 @@ class SeleniumTestCase(LiveServerTestCase):
     def tearDownClass(cls):
         cls.browser.quit()
         super(SeleniumTestCase, cls).tearDownClass()
+
+    @classmethod
+    def sauce_labs_driver(cls):
+        username = getenv('SAUCE_USERNAME')
+        access_key = getenv('SAUCE_ACCESS_KEY')
+        caps = {
+            'platform': getenv('SELENIUM_PLATFORM'),
+            'browserName': getenv('SELENIUM_BROWSER'),
+            'version': getenv('SELENIUM_VERSION'),
+            'tunnel-identifier': getenv('TRAVIS_JOB_NUMBER'),
+            'build': getenv('TRAVIS_BUILD_NUMBER'),
+        }
+        hub_url = 'http://{0}:{1}@ondemand.saucelabs.com/wd/hub'.format(username, access_key)
+        cls.browser = webdriver.Remote(desired_capabilities=caps, command_executor=hub_url)
 
     def assertTitle(self, title):
         self.assertEqual(self.browser.title, title)

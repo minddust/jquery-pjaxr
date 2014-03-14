@@ -12,8 +12,6 @@ from django.test.utils import get_runner
 
 
 def main():
-    print(os.environ['DJANGO_SETTINGS_MODULE'])
-
     TestRunner = get_runner(settings)
 
     test_runner = TestRunner()
