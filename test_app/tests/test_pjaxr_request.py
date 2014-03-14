@@ -9,7 +9,7 @@ class PjaxrRequestTest(SeleniumTestCase):
         super(PjaxrRequestTest, self).setUp()
         self.browser.get('{}/'.format(self.live_server_url))
 
-    def test_pjaxr_request_index(self):
+    def test_pjaxr_request_depth_1(self):
         self.assertTitle('index-title')
         self.assertContent('index-content')
 
