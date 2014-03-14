@@ -103,6 +103,7 @@
 
         if (xhr.readyState > 0) {
             fire('pjaxr:start', [opts]);
+            fire('pjaxr:send', [opts]);
         }
 
         xhr.done(function(data, textStatus, jqXHR) {
