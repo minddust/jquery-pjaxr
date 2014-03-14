@@ -23,7 +23,7 @@ class SeleniumTestCase(LiveServerTestCase):
         super(SeleniumTestCase, self).setUp()
 
     def tearDown(self):
-        if self.sauce_username:
+        if hasattr(self, 'sauce_username'):
             self.report_status()
         self.browser.quit()
         super(SeleniumTestCase, self).tearDown()
