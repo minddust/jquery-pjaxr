@@ -7,7 +7,7 @@ env:
   global:
   - secure: GIZt8Nas050nsHHeje1s7P3bSpVJlBtz2SRQZPqFd6rqOLpkkJ6LVlFLCoUJXMdkshX3ZdrPcqtyg3tvI/2dnAC/fACTEIMysBgMOW4LVt/+se05hmGDbsSPgJHkOzvDz6G2csMBLWDHdEQvGGNWn9rVHY3UhWnhDX6L33mbK14=
   - secure: p2Q/X4bQII4cQV71XKF5OBhvvIBDAmI4BFl+3has/z2R8bOTBm1b5vEIem4/hRTRJ9ZP2VHo/IpGgy8mpBF7oiVdMuW6cj0lLJIE5Pm6l89oCPg3ZknGV03WUbkZhs48XZ1f44boUaZ1HZYR57wCfHpj7EzSn1I2BwgCjGUdZNg=
-  - secure: QquNuAC5GXB56MgtTMflnZVsuyZPkWdVvFnpCF3NI4ODQPbaZKzCeQvEFXACEIv/mHEkK3OqzwaPrDEywfOWUMswLXdLx1rggbEy/5bETA5KhPrTibDqvqJygUitzaPvEtN2ldxtqyWqwDWKClklPoZQJ+evHBJuQaimPFFi47o=
+  - secure: rFo920MeLZb/F4xpOQFQfnjIccMhxMroxMO266z5aYzp7sDRXtGd57uPX6xsCfnupYEQdLz0x4yphxzM+Icm3vdbAu4KjxA2/Js/FHfhGlHaOUGyTkSkp3POMDxVY05JwfGI+7kJCGAbsBTisgZi8OXXfLxIsn4HQ94gmSESEu0=
 
 install:
 - pip install Django==1.6.2
