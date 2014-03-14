@@ -32,11 +32,12 @@ class SeleniumTestCase(LiveServerTestCase):
             'platform': getenv('SELENIUM_PLATFORM'),
             'browserName': getenv('SELENIUM_BROWSER'),
             'version': getenv('SELENIUM_VERSION'),
+            'javascriptEnabled': getenv('SELENIUM_JAVASCRIPT', True),
             'tunnel-identifier': getenv('TRAVIS_JOB_NUMBER'),
             'build': getenv('TRAVIS_BUILD_NUMBER'),
         }
         hub_url = 'http://{0}:{1}@ondemand.saucelabs.com/wd/hub'.format(username, access_key)
-        cls.browser = webdriver.Remote(desired_capabilities=caps, command_executor=hub_url)
+        cls.browser = webdriver.Remote(desired_capabilities=caps, command_executor=str(hub_url))  # webdriver.Remote only accepts str - not unicode
 
     def assertTitle(self, title):
         self.assertEqual(self.browser.title, title)
