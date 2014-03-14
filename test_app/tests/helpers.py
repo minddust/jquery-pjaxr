@@ -34,6 +34,7 @@ class SeleniumTestCase(LiveServerTestCase):
             'version': getenv('SELENIUM_VERSION'),
             'javascriptEnabled': getenv('SELENIUM_JAVASCRIPT', True),
             'tunnel-identifier': getenv('TRAVIS_JOB_NUMBER'),
+            'name': cls._testMethodName,
             'build': getenv('TRAVIS_BUILD_NUMBER'),
         }
         hub_url = 'http://{0}:{1}@ondemand.saucelabs.com/wd/hub'.format(username, access_key)
