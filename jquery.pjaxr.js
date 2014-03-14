@@ -114,7 +114,7 @@
 
             // If there is a layout version mismatch, hard load the new url
             if (currentVersion && latestVersion && currentVersion !== latestVersion) {
-                locationReplace(opts.url);
+                loadHard(opts.url);
                 return;
             }
 
@@ -123,7 +123,7 @@
 
             // if response data doesn't fit, hard load the new url
             if (!head_match && !body_match) {
-                locationReplace(opts.url);
+                loadHard(opts.url);
                 return;
             }
             fire('pjaxr:success', [data, textStatus, jqXHR, opts]);
@@ -195,7 +195,7 @@
 
         xhr.fail(function(jqXHR, textStatus, errorThrown) {
             if (textStatus !== 'abort' && fire('pjaxr:fail', [jqXHR, textStatus, errorThrown, opts])) {
-                locationReplace(opts.url);
+                loadHard(opts.url);
             }
         });
 
@@ -406,11 +406,10 @@
         return (new Date()).getTime();
     }
 
-    // hard replace current state with url
-    // workaround for WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=80697
-    function locationReplace(url) {
-        window.history.replaceState(null, '', '#');
-        window.location.replace(url);
+    // hard load to new state without pjaxr
+    function loadHard(url) {
+        // hard load to new state of this url, no state should be pushed before in this pjax.request
+        window.location.href = url;
     }
 
     // takes care of the back and forward functionality
