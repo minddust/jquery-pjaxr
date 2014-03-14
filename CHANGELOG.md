@@ -1,5 +1,6 @@
 # Master
 
+* Add saucelabs integration
 * Fix #19 missing pjaxr:send event
 
 # 1.1.0 (2013-11-21)

@@ -6,6 +6,7 @@ from .helpers import SeleniumTestCase
 class PjaxrRequestTest(SeleniumTestCase):
 
     def setUp(self):
+        super(PjaxrRequestTest, self).setUp()
         self.browser.get('{}/'.format(self.live_server_url))
 
     def test_pjaxr_request_index(self):
