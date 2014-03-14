@@ -1,4 +1,6 @@
-# [jquery-pjaxr](https://www.minddust.com/project/jquery-pjaxr/) [![Build Status](https://secure.travis-ci.org/minddust/jquery-pjaxr.png)](http://travis-ci.org/minddust/jquery-pjaxr) [![Selenium Test Status](https://saucelabs.com/browser-matrix/minddust.svg)](https://saucelabs.com/u/minddust)
+# [jquery-pjaxr](https://www.minddust.com/project/jquery-pjaxr/) [![Bower version](https://badge.fury.io/bo/jquery-pjaxr.png)](http://badge.fury.io/bo/jquery-pjaxr) [![Build Status](https://secure.travis-ci.org/minddust/jquery-pjaxr.png)](http://travis-ci.org/minddust/jquery-pjaxr) 
+
+[![Selenium Test Status](https://saucelabs.com/browser-matrix/minddust.svg)](https://saucelabs.com/u/minddust)
 
 jquery-pjaxr is [jQuery](http://jquery.com/) plugin that uses ajax and pushState to deliver a fast browsing experience.
 
