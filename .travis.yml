@@ -26,9 +26,6 @@ install:
 - npm run-script bower-install
 - cd ..
 
-addons:
-  sauce_connect: true
-
 script:
 - python test_app/tests/runtests.py
 
