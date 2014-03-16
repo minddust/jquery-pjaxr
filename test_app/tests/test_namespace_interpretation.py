@@ -12,10 +12,7 @@ class NamespaceInterpretationTest(SeleniumTestCase):
     def test_namespaces_after_pjaxr(self):
         self.assertTitle('index-title')
         self.assertContent('index-content')
-
-        body = self.browser.find_element_by_css_selector('body')
-        body_pjaxr = body.get_attribute('js-pjaxr-done')
-        self.assertEqual(body_pjaxr, None)
+        self.assertBodyAttr('data-pjaxr-namespace', 'md.index')
 
         about_link = self.browser.find_element_by_css_selector('#about-link')
         about_link.click()
@@ -23,9 +20,7 @@ class NamespaceInterpretationTest(SeleniumTestCase):
         self.wait.until(lambda browser: browser.title == 'about-title')
         self.assertTitle('about-title')
         self.assertContent('about-content')
-
-        self.browser.execute_script("$('body').attr('data-current-namespace', $.fn.pjaxr.state.namespace);")
-        self.assertBodyAttr('data-current-namespace', 'md.about')
+        self.assertCurrentNamespace('md.about')
 
         project_link = self.browser.find_element_by_css_selector('#project-link')
         project_link.click()
@@ -33,6 +28,4 @@ class NamespaceInterpretationTest(SeleniumTestCase):
         self.wait.until(lambda browser: browser.title == 'project-title')
         self.assertTitle('project-title')
         self.assertContent('project-content')
-
-        self.browser.execute_script("$('body').attr('data-current-namespace', $.fn.pjaxr.state.namespace);")
-        self.assertBodyAttr('data-current-namespace', 'md.project.index')
+        self.assertCurrentNamespace('md.project.index')  # multiline namespace - prove for #24

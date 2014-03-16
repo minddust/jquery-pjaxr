@@ -150,7 +150,7 @@
 
             var namespace_match = data.match(/<pjaxr-namespace>([\s\S.]*)<\/pjaxr-namespace>/i);
             if (namespace_match) {
-                namespace = $(parseHTML(namespace_match[0].replace(/(\r\n|\n|\r|\s|\t)/gm,""))).html();
+                namespace = $(parseHTML(namespace_match[0].replace(/(\r\n|\n|\r|\s|\t)/gm, ''))).html();
             }
 
             // FF bug: Won't autofocus fields that are inserted via JS.

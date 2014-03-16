@@ -65,6 +65,10 @@ class SeleniumTestCase(LiveServerTestCase):
         c = self.browser.find_element_by_css_selector('#content').text
         self.assertEqual(c, content)
 
+    def assertCurrentNamespace(self, namespace):
+        self.browser.execute_script("$('body').attr('data-current-namespace', $.fn.pjaxr.state.namespace);")
+        self.assertBodyAttr('data-current-namespace', namespace)
+
     def assertBodyAttr(self, attribute, value):
         body = self.browser.find_element_by_css_selector('body')
         body_attr = body.get_attribute(attribute)
