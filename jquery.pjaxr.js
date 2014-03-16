@@ -261,17 +261,19 @@
                         $meta = $('head > meta[property="'+property+'"]');
                     }
 
-                    if ($meta.length > 0) {
-                        remove_head_parts.push(outerHTML($meta));
-                        $meta.remove();
-                    }
-                    else {
-                        revert_head_parts.push(outerHTML($value));
-                    }
+                    if ($meta !== undefined) {
+                        if ($meta.length > 0) {
+                            remove_head_parts.push(outerHTML($meta));
+                            $meta.remove();
+                        }
+                        else {
+                            revert_head_parts.push(outerHTML($value));
+                        }
 
-                    if (append === true) {
-                        $('head').append($value);
-                        apply_head_parts.push(outerHTML($value));
+                        if (append === true) {
+                            $('head').append($value);
+                            apply_head_parts.push(outerHTML($value));
+                        }
                     }
                 }
                 else if ($value.is('link')) {
