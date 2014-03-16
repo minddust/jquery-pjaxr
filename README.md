@@ -187,7 +187,7 @@ There are many available plugins for different languages and frameworks which wi
 
 ## Sites using jquery-pjaxr
 
-If you are using this library and want to get listed below.  Please let me know.  Just make a pull request or write me an [email](http://www.google.com/recaptcha/mailhide/d?k=013hG570A7Q8W8N-mLwG_KYA==&amp;c=Si_w84-xzI8tECjbipjghuMGRCyZRSrgBkV5ZFp61IY= "Reveal my email address").
+If you are using this library and want to get listed below.  Please let me know.  Just make a pull request or write me an [email](http://www.google.com/recaptcha/mailhide/d?k=011zym_c1aKrhZC1K3TKFvVQ==&c=fPxx09KG4QgsFYu7CWApi-ZBAupHsLalyCVJ_Vogc8g= "Reveal my email address").
 
 * https://www.socialfunders.org
 * http://www.noxic-action.de/page/
