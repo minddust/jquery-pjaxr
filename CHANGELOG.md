@@ -1,7 +1,9 @@
 # Master
 
 * Add saucelabs integration
+* Fix #12 ignore unprocessable metatags
 * Fix #19 missing pjaxr:send event
+* Fix #24 strip namespace processing
 
 # 1.1.0 (2013-11-21)
 
