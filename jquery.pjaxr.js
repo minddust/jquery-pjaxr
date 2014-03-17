@@ -114,7 +114,7 @@
 
             // If there is a layout version mismatch, hard load the new url
             if (currentVersion && latestVersion && currentVersion !== latestVersion) {
-                locationReplace(opts.url);
+                loadHard(opts.url);
                 return;
             }
 
@@ -123,7 +123,7 @@
 
             // if response data doesn't fit, hard load the new url
             if (!head_match && !body_match) {
-                locationReplace(opts.url);
+                loadHard(opts.url);
                 return;
             }
             fire('pjaxr:success', [data, textStatus, jqXHR, opts]);
@@ -150,7 +150,7 @@
 
             var namespace_match = data.match(/<pjaxr-namespace>([\s\S.]*)<\/pjaxr-namespace>/i);
             if (namespace_match) {
-                namespace = $(parseHTML(namespace_match[0])).html();
+                namespace = $(parseHTML(namespace_match[0].replace(/(\r\n|\n|\r|\s|\t)/gm, ''))).html();
             }
 
             // FF bug: Won't autofocus fields that are inserted via JS.
@@ -195,7 +195,7 @@
 
         xhr.fail(function(jqXHR, textStatus, errorThrown) {
             if (textStatus !== 'abort' && fire('pjaxr:fail', [jqXHR, textStatus, errorThrown, opts])) {
-                locationReplace(opts.url);
+                loadHard(opts.url);
             }
         });
 
@@ -261,17 +261,19 @@
                         $meta = $('head > meta[property="'+property+'"]');
                     }
 
-                    if ($meta.length > 0) {
-                        remove_head_parts.push(outerHTML($meta));
-                        $meta.remove();
-                    }
-                    else {
-                        revert_head_parts.push(outerHTML($value));
-                    }
+                    if ($meta !== undefined) {
+                        if ($meta.length > 0) {
+                            remove_head_parts.push(outerHTML($meta));
+                            $meta.remove();
+                        }
+                        else {
+                            revert_head_parts.push(outerHTML($value));
+                        }
 
-                    if (append === true) {
-                        $('head').append($value);
-                        apply_head_parts.push(outerHTML($value));
+                        if (append === true) {
+                            $('head').append($value);
+                            apply_head_parts.push(outerHTML($value));
+                        }
                     }
                 }
                 else if ($value.is('link')) {
@@ -406,11 +408,10 @@
         return (new Date()).getTime();
     }
 
-    // hard replace current state with url
-    // workaround for WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=80697
-    function locationReplace(url) {
-        window.history.replaceState(null, '', '#');
-        window.location.replace(url);
+    // hard load to new state without pjaxr
+    // replace would brick expected history behavior - see: #17
+    function loadHard(url) {
+        window.location.href = url;
     }
 
     // takes care of the back and forward functionality
