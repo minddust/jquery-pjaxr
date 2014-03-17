@@ -411,6 +411,13 @@
     // hard load to new state without pjaxr
     // replace would brick expected history behavior - see: #17
     function loadHard(url) {
+        // append [?||&]pjaxr_reset to current url to avoid chrome/webkit caching problem - see: #16
+        var additional_param = '';
+        if (window.location.search.indexOf('pjaxr_reset') == -1) {
+            additional_param = window.location.search.substring(0, 1) == '?' ? '&' : '?';
+            additional_param += 'pjaxr_reset';
+        }
+        window.history.replaceState(window.history.state, document.title, window.location.href + additional_param);
         window.location.href = url;
     }
 

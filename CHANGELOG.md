@@ -2,6 +2,7 @@
 
 * Add saucelabs integration
 * Fix #12 ignore unprocessable metatags
+* Fix #16 chrome/webkit caching bug
 * Fix #17 misuse of location.replace
 * Fix #19 missing pjaxr:send event
 * Fix #24 strip namespace processing
