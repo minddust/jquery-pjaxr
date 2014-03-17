@@ -5,4 +5,5 @@
 
     <li {% if menu_ignored_metatag %}class="active"{% endif %}><a id="ignored-metatag-link" href="{% url 'ignored_metatag' %}" data-pjaxr>invalid-metatag</a></li>
 	<li {% if menu_no_pjaxr_reponse %}class="active"{% endif %}><a id="no-pjaxr-response-link" href="{% url 'no_pjaxr_response' %}" data-pjaxr>no-pjaxr-response</a></li>
+	<li {% if menu_pjaxr_ready_pjaxr_always %}class="active"{% endif %}><a id="pjaxr-ready-pjaxr-always-link" href="{% url 'pjaxr_ready_pjaxr_always' %}" data-pjaxr>pjaxr-ready-pjaxr-always</a></li>
 </ul>

@@ -12,9 +12,12 @@ urlpatterns = patterns('',
     url(r'^project/blog/$', TemplateView.as_view(template_name='project_blog.html'), name='project_blog'),
     url(r'^project/gallery/$', TemplateView.as_view(template_name='project_gallery.html'), name='project_gallery'),
 
+    # pjaxrReady and pjaxrAlways
+    url(r'^pjaxr-ready-pjaxr-always/$', TemplateView.as_view(template_name='pjaxr_ready_pjaxr_always.html'), name='pjaxr_ready_pjaxr_always'),
+
     # issue urls
     url(r'^ignored-metatag/$', TemplateView.as_view(template_name='ignored_metatag.html'), name='ignored_metatag'),
-	url(r'^no-pjaxr-response/$', TemplateView.as_view(template_name='no_pjaxr_response.html'), name='no_pjaxr_response'),
+    url(r'^no-pjaxr-response/$', TemplateView.as_view(template_name='no_pjaxr_response.html'), name='no_pjaxr_response'),
 
     # prevent travis 404 logs
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
