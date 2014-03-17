@@ -22,16 +22,16 @@
                     });
                 }
 
-                $(document).on('pjaxr:click', function() { $('body').attr('js-pjaxr-click', 'true'); });
-                $(document).on('pjaxr:beforeSend', function() { $('body').attr('js-pjaxr-before-send', 'true'); });
-                $(document).on('pjaxr:send', function() { $('body').attr('js-pjaxr-send', 'true'); });
-                $(document).on('pjaxr:timeout', function() { $('body').attr('js-pjaxr-timeout', 'true'); });
-                $(document).on('pjaxr:start', function() { $('body').attr('js-pjaxr-start', 'true'); });
-                $(document).on('pjaxr:success', function() { $('body').attr('js-pjaxr-success', 'true'); });
-                $(document).on('pjaxr:done', function() { $('body').attr('js-pjaxr-done', 'true'); });
-                $(document).on('pjaxr:fail', function() { $('body').attr('js-pjaxr-fail', 'true'); });
-                $(document).on('pjaxr:always', function() { $('body').attr('js-pjaxr-always', 'true'); });
-                $(document).on('pjaxr:end', function() { $('body').attr('js-pjaxr-end', 'true'); });
+                $(document).on('pjaxr:click', function() { $('body').attr('data-selenium-pjaxr-click', 'true'); });
+                $(document).on('pjaxr:beforeSend', function() { $('body').attr('data-selenium-pjaxr-before-send', 'true'); });
+                $(document).on('pjaxr:send', function() { $('body').attr('data-selenium-pjaxr-send', 'true'); });
+                $(document).on('pjaxr:timeout', function() { $('body').attr('data-selenium-pjaxr-timeout', 'true'); });
+                $(document).on('pjaxr:start', function() { $('body').attr('data-selenium-pjaxr-start', 'true'); });
+                $(document).on('pjaxr:success', function() { $('body').attr('data-selenium-pjaxr-success', 'true'); });
+                $(document).on('pjaxr:done', function() { $('body').attr('data-selenium-pjaxr-done', 'true'); });
+                $(document).on('pjaxr:fail', function() { $('body').attr('data-selenium-pjaxr-fail', 'true'); });
+                $(document).on('pjaxr:always', function() { $('body').attr('data-selenium-pjaxr-always', 'true'); });
+                $(document).on('pjaxr:end', function() { $('body').attr('data-selenium-pjaxr-end', 'true'); });
 
                 $.fn.removeAttrs = function(regex) {
                     return this.each(function() {
