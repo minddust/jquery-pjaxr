@@ -1,4 +1,4 @@
-# [jquery-pjaxr](https://www.minddust.com/project/jquery-pjaxr/) [![Bower version](https://badge.fury.io/bo/jquery-pjaxr.png)](http://badge.fury.io/bo/jquery-pjaxr) [![Build Status](https://secure.travis-ci.org/minddust/jquery-pjaxr.png)](http://travis-ci.org/minddust/jquery-pjaxr) 
+# [jquery-pjaxr](https://www.minddust.com/project/jquery-pjaxr/) [![Bower version](https://badge.fury.io/bo/jquery-pjaxr.png)](http://badge.fury.io/bo/jquery-pjaxr) [![Build Status](https://secure.travis-ci.org/minddust/jquery-pjaxr.png)](http://travis-ci.org/minddust/jquery-pjaxr) [![devDependency Status](https://david-dm.org/minddust/jquery-pjaxr/dev-status.png)](https://david-dm.org/minddust/jquery-pjaxr#info=devDependencies)
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/minddust.svg)](https://saucelabs.com/u/minddust)
 
