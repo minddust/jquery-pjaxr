@@ -57,7 +57,6 @@ class SeleniumTestCase(LiveServerTestCase):
         result = connection.getresponse()
         return result.status == 200
 
-
     def assertTitle(self, title):
         self.assertEqual(self.browser.title, title)
 
@@ -65,10 +64,19 @@ class SeleniumTestCase(LiveServerTestCase):
         c = self.browser.find_element_by_css_selector('#content').text
         self.assertEqual(c, content)
 
+    def assertBodyNamespace(self, namespace):
+        body = self.browser.find_element_by_css_selector('body')
+        body_attr = body.get_attribute('data-pjaxr-namespace')
+        self.assertEqual(body_attr, namespace)
+
+    def assertCurrentNamespace(self, namespace):
+        self.browser.execute_script("$('body').attr('data-selenium-pjaxr-current-namespace', $.fn.pjaxr.state.namespace);")
+        self.assertBodyAttr('pjaxr-current-namespace', namespace)
+
     def assertBodyAttr(self, attribute, value):
         body = self.browser.find_element_by_css_selector('body')
-        body_attr = body.get_attribute(attribute)
+        body_attr = body.get_attribute('data-selenium-' + attribute)
         self.assertEqual(body_attr, value)
 
     def resetBodyAttrs(self):
-        self.browser.execute_script('$("body").removeAttrs(/^js-pjaxr-/);')
+        self.browser.execute_script('$("body").removeAttrs(/^data-selenium-/);')
