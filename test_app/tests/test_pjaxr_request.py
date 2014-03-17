@@ -12,10 +12,7 @@ class PjaxrRequestTest(SeleniumTestCase):
     def test_pjaxr_request_depth_1(self):
         self.assertTitle('index-title')
         self.assertContent('index-content')
-
-        body = self.browser.find_element_by_css_selector('body')
-        body_pjaxr = body.get_attribute('js-pjaxr-done')
-        self.assertEqual(body_pjaxr, None)
+        self.assertBodyAttr('js-pjaxr-done', None)
 
         about_link = self.browser.find_element_by_css_selector('#about-link')
         about_link.click()
