@@ -57,6 +57,18 @@ class SeleniumTestCase(LiveServerTestCase):
         result = connection.getresponse()
         return result.status == 200
 
+    def browser_go_back(self):
+        if getenv('SELENIUM_BROWSER') == 'safari':
+            self.browser.execute_script('history.go(-1);')
+        else:
+            self.browser.back()
+
+    def browser_go_forward(self):
+        if getenv('SELENIUM_BROWSER') == 'safari':
+            self.browser.execute_script('history.go(1);')
+        else:
+            self.browser.forward()
+
     def assertTitle(self, title):
         self.assertEqual(self.browser.title, title)
 

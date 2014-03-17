@@ -37,7 +37,7 @@ class NoPjaxrResponseTest(SeleniumTestCase):
 
         # back should trigger a full request cause namespace and blocks can't be reconstructed after a full return
         # issue: #17
-        self.browser.back()
+        self.browser_go_back()
 
         self.wait.until(lambda browser: browser.title == 'about-title')
         self.assertTitle('about-title')
