@@ -1,0 +1,21 @@
+{% pjaxr_extends '__base.html' 'md' %}
+
+{% block title %}pjaxr-ready-pjaxr-always-title{% endblock title %}
+
+{% block page %}
+    <div id="page">
+        {% include '_menu.html' with menu_pjaxr_ready_pjaxr_always=True %}
+        <div id="content">pjaxr-ready-pjaxr-always-content</div>
+        <script type="text/javascript">
+            {% if pjaxr_state == 'disabled' %}$.fn.pjaxr.disable();{% endif %}
+            $(document).pjaxrReady(function(){
+                $('body').append($('<div class="pjaxr-ready-div"></div>'));
+            });
+            $(document).pjaxrAlways(function(){
+                $('body').append($('<div class="pjaxr-always-div"></div>'));
+            });
+        </script>
+    </div>
+{% endblock page %}
+
+{% block pjaxr_namespace %}md.pjaxr-ready-pjaxr-always{% endblock pjaxr_namespace %}

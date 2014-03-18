@@ -16,6 +16,25 @@
         });
     }
 
+    function fnPjaxrReady(func) {
+        // if document is not ready yet --> the request must be initial --> register on $(document).ready()
+        if (!$.isReady) {
+            return $(document).ready(func);
+        }
+        // else --> the request must come from pjaxr --> register on $(document).one('pjaxr:done');
+        else {
+            return $(document).one('pjaxr:done', func);
+        }
+    }
+
+    function fnPjaxrAlways(func) {
+        // same as fnPjaxrReady but will always be called after a request is processed
+        if (!$.isReady) {
+            $(document).ready(func);
+        }
+        return $(document).on('pjaxr:done', func);
+    }
+
     function request(link, options) {
         // enables pure request calls
         if (typeof link === 'string') {
@@ -490,6 +509,8 @@
     // enables pushState behavior
     function enable() {
         $.fn.pjaxr = fnPjaxr;
+        $.fn.pjaxrReady = fnPjaxrReady;
+        $.fn.pjaxrAlways = fnPjaxrAlways;
         $.fn.pjaxr.click = handleClick;
         $.fn.pjaxr.request = request;
         $.fn.pjaxr.enable = $.noop;
@@ -507,6 +528,8 @@
     // disable pushState behavior
     function disable() {
         $.fn.pjaxr = function() { return this; };
+        $.fn.pjaxrReady = function(func) { return $(document).ready(func); };
+        $.fn.pjaxrAlways = function(func) { return $(document).ready(func); };
         $.fn.pjaxr.enable = enable;
         $.fn.pjaxr.disable = $.noop;
         $(window).off('popstate.pjaxr', onPjaxrPopstate);
