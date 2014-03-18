@@ -19,12 +19,12 @@
     function fnPjaxrReady(func) {
         // if document is not ready yet, register on $(document).ready()
         if (!$.isReady) {
-            $(document).ready(function() {
+            return $(document).ready(function() {
                func();
             });
         // if document is already ready the function comes out of pjaxr request, so register on $(document).one('pjaxr:done');
         } else {
-            $(document).one('pjaxr:done', function() {
+            return $(document).one('pjaxr:done', function() {
                func();
             });
         }
@@ -37,7 +37,7 @@
                func();
             });
         }
-        $(document).on('pjaxr:done', function() {
+        return $(document).on('pjaxr:done', function() {
            func();
         });
     }
@@ -537,8 +537,8 @@
         $.fn.pjaxr = function() { return this; };
         $.fn.pjaxr.enable = enable;
         $.fn.pjaxr.disable = $.noop;
-        $.fn.pjaxrReady = $.noop;
-        $.fn.pjaxrAlways = $.noop;
+        $.fn.pjaxrReady = function(func) { return $(document).ready(func); };
+        $.fn.pjaxrAlways = function(func) { return $(document).ready(func); };
         $(window).off('popstate.pjaxr', onPjaxrPopstate);
     }
 
