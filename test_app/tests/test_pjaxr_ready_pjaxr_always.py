@@ -43,3 +43,19 @@ class PjaxrReadyPjaxrAlwaysTest(SeleniumTestCase):
 
         self.wait.until(lambda browser: len(browser.find_elements_by_class_name('pjaxr-always-div')) == 2)
         self.assertEqual(len(self.browser.find_elements_by_class_name('pjaxr-ready-div')), 1)
+
+    def test_disabled_pjaxr(self):
+
+        self.assertEqual(len(self.browser.find_elements_by_class_name('pjaxr-always-div')), 0)
+        self.assertEqual(len(self.browser.find_elements_by_class_name('pjaxr-ready-div')), 0)
+        self.browser.execute_script('$.fn.pjaxr.disable();')
+
+        self.browser.get('{0}{1}'.format(self.live_server_url, reverse('pjaxr_ready_pjaxr_always_disabled', kwargs={'disabled': 'true'})))
+
+        self.wait.until(lambda browser: len(browser.find_elements_by_class_name('pjaxr-always-div')) == 1)
+        self.wait.until(lambda browser: len(browser.find_elements_by_class_name('pjaxr-ready-div')) == 1)
+
+        self.browser.get('{0}{1}'.format(self.live_server_url, reverse('about')))
+
+        self.wait.until(lambda browser: len(browser.find_elements_by_class_name('pjaxr-always-div')) == 0)
+        self.wait.until(lambda browser: len(browser.find_elements_by_class_name('pjaxr-ready-div')) == 0)

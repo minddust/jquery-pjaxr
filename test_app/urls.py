@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 
     # pjaxrReady and pjaxrAlways
     url(r'^pjaxr-ready-pjaxr-always/$', TemplateView.as_view(template_name='pjaxr_ready_pjaxr_always.html'), name='pjaxr_ready_pjaxr_always'),
+    url(r'^pjaxr-ready-pjaxr-always/(?P<disabled>[(true)]+)/$', TemplateView.as_view(template_name='pjaxr_ready_pjaxr_always.html'), name='pjaxr_ready_pjaxr_always_disabled'),
 
     # issue urls
     url(r'^ignored-metatag/$', TemplateView.as_view(template_name='ignored_metatag.html'), name='ignored_metatag'),
