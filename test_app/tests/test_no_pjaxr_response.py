@@ -5,11 +5,8 @@ from .helpers import SeleniumTestCase
 
 class NoPjaxrResponseTest(SeleniumTestCase):
 
-    def setUp(self):
-        super(NoPjaxrResponseTest, self).setUp()
-        self.browser.get('{}/'.format(self.live_server_url))
-
     def test_no_pjaxr_response(self):
+        self.browser_get_reverse('index')
         self.assertTitle('index-title')
         self.assertContent('index-content')
         self.assertBodyAttr('pjaxr-done', None)

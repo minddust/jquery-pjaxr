@@ -8,7 +8,7 @@ from .helpers import SeleniumTestCase
 class IgnoredMetatagTest(SeleniumTestCase):
 
     def test_ignored_metatag_pjaxr(self):
-        self.browser.get('{}/'.format(self.live_server_url))
+        self.browser_get_reverse('index')
         self.assertTitle('index-title')
         self.assertContent('index-content')
 
@@ -27,7 +27,7 @@ class IgnoredMetatagTest(SeleniumTestCase):
             self.browser.find_element_by_css_selector('meta[http-equiv="X-UA-Compatible"]')
 
     def test_ignored_metatag_initial(self):
-        self.browser.get('{}/ignored-metatag/'.format(self.live_server_url))
+        self.browser_get_reverse('ignored_metatag')
         self.assertTitle('ignored-metatag-title')
         self.assertContent('ignored-metatag-content')
 

@@ -5,11 +5,8 @@ from .helpers import SeleniumTestCase
 
 class NamespaceInterpretationTest(SeleniumTestCase):
 
-    def setUp(self):
-        super(NamespaceInterpretationTest, self).setUp()
-        self.browser.get('{}/'.format(self.live_server_url))
-
     def test_namespaces_after_pjaxr(self):
+        self.browser_get_reverse('index')
         self.assertTitle('index-title')
         self.assertContent('index-content')
         self.assertBodyNamespace('md.index')

@@ -5,11 +5,8 @@ from .helpers import SeleniumTestCase
 
 class PjaxrRequestTest(SeleniumTestCase):
 
-    def setUp(self):
-        super(PjaxrRequestTest, self).setUp()
-        self.browser.get('{}/'.format(self.live_server_url))
-
     def test_pjaxr_request_depth_1(self):
+        self.browser_get_reverse('index')
         self.assertTitle('index-title')
         self.assertContent('index-content')
         self.assertBodyAttr('pjaxr-done', None)
@@ -46,9 +43,10 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assertBodyAttr('pjaxr-end', None)
 
     def test_pjaxr_request_depth_2_to_no_pjaxr_and_back(self):
+        self.browser_get_reverse('index')
         self.assertTitle('index-title')
         self.assertContent('index-content')
-        self.assertBodyAttr('js-pjaxr-done', None)
+        self.assertBodyAttr('pjaxr-done', None)
 
         about_link = self.browser.find_element_by_css_selector('#about-link')
         about_link.click()

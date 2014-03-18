@@ -6,6 +6,7 @@ import json
 from os import getenv
 import sys
 
+from django.core.urlresolvers import reverse
 from django.test import LiveServerTestCase
 
 from selenium import webdriver
@@ -56,6 +57,9 @@ class SeleniumTestCase(LiveServerTestCase):
         connection.request('PUT', url, json.dumps(data), headers)
         result = connection.getresponse()
         return result.status == 200
+
+    def browser_get_reverse(self, name, **kwargs):
+        self.browser.get('{0}{1}'.format(self.live_server_url, reverse(name, kwargs=kwargs)))
 
     def browser_go_back(self):
         if getenv('SELENIUM_BROWSER') == 'safari':
