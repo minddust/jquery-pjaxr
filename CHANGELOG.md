@@ -1,6 +1,7 @@
 # Master
 
 * Add saucelabs integration
+* Add pjaxrReady and pjaxrAlways register methods #29
 * Update jQuery dependency to >= 1.9 #31
 * Fix #12 ignore unprocessable metatags
 * Fix #16 chrome/webkit caching bug
