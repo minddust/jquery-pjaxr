@@ -38,7 +38,7 @@ There is already an awesome plugin called [jquery-pjax](https://github.com/defun
 
 ## Dependencies
 
-Requires jQuery 1.8.x or higher.
+Requires jQuery 1.9.x or higher.
 
 
 ## Usage
