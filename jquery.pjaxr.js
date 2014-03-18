@@ -19,27 +19,19 @@
     function fnPjaxrReady(func) {
         // if document is not ready yet, register on $(document).ready()
         if (!$.isReady) {
-            return $(document).ready(function() {
-               func();
-            });
+            return $(document).ready(func);
         // if document is already ready the function comes out of pjaxr request, so register on $(document).one('pjaxr:done');
         } else {
-            return $(document).one('pjaxr:done', function() {
-               func();
-            });
+            return $(document).one('pjaxr:done', func);
         }
     }
 
     function fnPjaxrAlways(func) {
         // if document is ready, and so it should be a pjaxr-request, don't run, to avoid double-run
         if (!$.isReady) {
-            $(document).ready(function() {
-               func();
-            });
+            $(document).ready(func);
         }
-        return $(document).on('pjaxr:done', function() {
-           func();
-        });
+        return $(document).on('pjaxr:done', func);
     }
 
     function request(link, options) {
