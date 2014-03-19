@@ -62,8 +62,15 @@
             return;
         }
 
+        var url = $.isFunction(link.href) ? link.href() : link.href;
+
+        var xhr_url = url; // + (url.indexOf('pjaxr_reset') != -1) ? '' : (url.indexOf('?') == -1) ? '?pjaxr_reset' : '&pjaxr_reset';
+        if (xhr_url.indexOf('pjaxr_reset') == -1) {
+            xhr_url += (url.indexOf('?') == -1) ? '?pjaxr_reset' : '&pjaxr_reset';
+        }
+
         var defaults = {
-            url: $.isFunction(link.href) ? link.href() : link.href,
+            url: xhr_url,
             type: 'GET',  // always GET since we currently not support other methods
             dataType: 'html'
         };
@@ -133,7 +140,7 @@
 
             // If there is a layout version mismatch, hard load the new url
             if (currentVersion && latestVersion && currentVersion !== latestVersion) {
-                loadHard(opts.url);
+                loadHard(url);
                 return;
             }
 
@@ -142,7 +149,7 @@
 
             // if response data doesn't fit, hard load the new url
             if (!head_match && !body_match) {
-                loadHard(opts.url);
+                loadHard(url);
                 return;
             }
             fire('pjaxr:success', [data, textStatus, jqXHR, opts]);
@@ -196,7 +203,7 @@
             fnPjaxr.state = {
                 id: stateId,
                 namespace: namespace,
-                url: opts.url,
+                url: url,
                 title: document.title,
                 head_apply: head_match ? apply_head_parts : null,
                 body_apply: body_match ? apply_body_parts : null
@@ -214,7 +221,7 @@
 
         xhr.fail(function(jqXHR, textStatus, errorThrown) {
             if (textStatus !== 'abort' && fire('pjaxr:fail', [jqXHR, textStatus, errorThrown, opts])) {
-                loadHard(opts.url);
+                loadHard(url);
             }
         });
 
@@ -515,15 +522,7 @@
             scrollTo: 0,
             version: findVersion
         };
-        $(window).on('popstate.pjaxr', onPjaxrPopstate).on('unload.pjaxr', function() {
-            // append [?||&]pjaxr_reset to current url to avoid chrome/webkit caching problem - see: #16
-            var additional_param = '';
-            if (window.location.search.indexOf('pjaxr_reset') == -1) {
-                additional_param = window.location.search.substring(0, 1) == '?' ? '&' : '?';
-                additional_param += 'pjaxr_reset';
-            }
-            window.history.replaceState(window.history.state, document.title, window.location.href + additional_param);
-        });
+        $(window).on('popstate.pjaxr', onPjaxrPopstate);
     }
 
     // disable pushState behavior
@@ -533,7 +532,7 @@
         $.fn.pjaxrAlways = function(func) { return $(document).ready(func); };
         $.fn.pjaxr.enable = enable;
         $.fn.pjaxr.disable = $.noop;
-        $(window).off('popstate.pjaxr', onPjaxrPopstate).off('unload.pjaxr');
+        $(window).off('popstate.pjaxr', onPjaxrPopstate);
     }
 
     // is pjaxr supported by this browser?
