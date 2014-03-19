@@ -430,13 +430,6 @@
     // hard load to new state without pjaxr
     // replace would brick expected history behavior - see: #17
     function loadHard(url) {
-        // append [?||&]pjaxr_reset to current url to avoid chrome/webkit caching problem - see: #16
-        var additional_param = '';
-        if (window.location.search.indexOf('pjaxr_reset') == -1) {
-            additional_param = window.location.search.substring(0, 1) == '?' ? '&' : '?';
-            additional_param += 'pjaxr_reset';
-        }
-        window.history.replaceState(window.history.state, document.title, window.location.href + additional_param);
         window.location.href = url;
     }
 
@@ -522,7 +515,15 @@
             scrollTo: 0,
             version: findVersion
         };
-        $(window).on('popstate.pjaxr', onPjaxrPopstate);
+        $(window).on('popstate.pjaxr', onPjaxrPopstate).on('unload.pjaxr', function() {
+            // append [?||&]pjaxr_reset to current url to avoid chrome/webkit caching problem - see: #16
+            var additional_param = '';
+            if (window.location.search.indexOf('pjaxr_reset') == -1) {
+                additional_param = window.location.search.substring(0, 1) == '?' ? '&' : '?';
+                additional_param += 'pjaxr_reset';
+            }
+            window.history.replaceState(window.history.state, document.title, window.location.href + additional_param);
+        });
     }
 
     // disable pushState behavior
@@ -532,7 +533,7 @@
         $.fn.pjaxrAlways = function(func) { return $(document).ready(func); };
         $.fn.pjaxr.enable = enable;
         $.fn.pjaxr.disable = $.noop;
-        $(window).off('popstate.pjaxr', onPjaxrPopstate);
+        $(window).off('popstate.pjaxr', onPjaxrPopstate).off('unload.pjaxr');
     }
 
     // is pjaxr supported by this browser?
