@@ -61,6 +61,9 @@ class SeleniumTestCase(LiveServerTestCase):
     def browser_get_reverse(self, name, **kwargs):
         self.browser.get('{0}{1}'.format(self.live_server_url, reverse(name, kwargs=kwargs)))
 
+    def assert_url_reverse(self, name, **kwargs):
+        self.assertEqual(self.browser.current_url, '{0}{1}'.format(self.live_server_url, reverse(name, kwargs=kwargs)))
+
     def browser_go_back(self):
         if getenv('SELENIUM_BROWSER') == 'safari':
             self.browser.execute_script('history.go(-1);')

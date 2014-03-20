@@ -2,10 +2,14 @@
 
 {% block title %}about-title{% endblock title %}
 
+{% block inner_head %}<meta name="keywords" content="This is a test">{% endblock inner_head %}
+
 {% block page %}
     <div id="page">
         {% include '_menu.html' with menu_about=True %}
         <div id="content">about-content</div>
+        <!-- for scrolling test -->
+        <div class="big-container" style="height: 2000px;">a</div>
     </div>
 {% endblock page %}
 

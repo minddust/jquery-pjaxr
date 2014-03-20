@@ -17,6 +17,9 @@ class InitialRequestTest(SeleniumTestCase):
         self.assertTitle('about-title')
         self.assertContent('about-content')
 
+        keywords_metatag = self.browser.find_element_by_css_selector('meta[name="keywords"]')
+        self.assertEqual(keywords_metatag.get_attribute("content"), "This is a test")
+
     def test_initial_request_project(self):
         self.browser_get_reverse('project')
 

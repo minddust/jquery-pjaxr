@@ -1,0 +1,18 @@
+{% pjaxr_extends '__base.html' 'md' %}
+
+{% block title %}settings-title{% endblock title %}
+
+{% block page %}
+    <div id="page">
+        {% include '_menu.html' with menu_about=True %}
+        <div id="content">settings-content
+            <script type="text/javascript">
+                if ($.support.pjaxr) {
+                    $.fn.pjaxr.defaults = {'push': false, 'replace': true, 'scrollTo': 10};
+                }
+            </script>
+        </div>
+    </div>
+{% endblock page %}
+
+{% block pjaxr_namespace %}md.settings{% endblock pjaxr_namespace %}

@@ -4,6 +4,8 @@
     <li {% if menu_about %}class="active"{% endif %}><a id="about-link" href="{% url 'about' %}" data-pjaxr>about</a></li>
 
     <li {% if menu_ignored_metatag %}class="active"{% endif %}><a id="ignored-metatag-link" href="{% url 'ignored_metatag' %}" data-pjaxr>invalid-metatag</a></li>
+    <li {% if menu_settings %}class="active"{% endif %}><a id="settings-link" href="{% url 'settings' %}" data-pjaxr>settings</a></li>
+	<li {% if menu_no_matching_id %}class="active"{% endif %}><a id="no-matching-id-link" href="{% url 'no_matching_id' %}" data-pjaxr>no-matching-id</a></li>
 	<li {% if menu_no_pjaxr_reponse %}class="active"{% endif %}><a id="no-pjaxr-response-link" href="{% url 'no_pjaxr_response' %}" data-pjaxr>no-pjaxr-response</a></li>
 	<li {% if menu_pjaxr_ready_pjaxr_always %}class="active"{% endif %}><a id="pjaxr-ready-pjaxr-always-link" href="{% url 'pjaxr_ready_pjaxr_always' %}" data-pjaxr>pjaxr-ready-pjaxr-always</a></li>
 </ul>
