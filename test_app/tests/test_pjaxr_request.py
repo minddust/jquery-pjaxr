@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.core.urlresolvers import reverse
 
 from .helpers import SeleniumTestCase
 from selenium.common.exceptions import NoSuchElementException
@@ -12,7 +13,7 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assertContent('index-content')
         self.assertBodyAttr('pjaxr-done', None)
 
-        self.browser.find_element_by_class_name('wanna_be_removed2')
+        self.browser.find_element_by_class_name('wanna_be_removed_2')
         self.assertEqual(self.browser.find_element_by_class_name('wanna_be_removed').text, 'wanna_be_removed')
 
         about_link = self.browser.find_element_by_css_selector('#about-link')
@@ -25,7 +26,7 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assertEqual(keywords_metatag.get_attribute("content"), "This is a test")
 
         with self.assertRaises(NoSuchElementException):
-            self.browser.find_element_by_class_name('wanna_be_removed2')
+            self.browser.find_element_by_class_name('wanna_be_removed_2')
         with self.assertRaises(NoSuchElementException):
             self.assertEqual(self.browser.find_element_by_class_name('wanna_be_removed').text, 'wanna_be_removed')
 
@@ -59,7 +60,7 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assertContent('index-content')
         self.assertBodyAttr('pjaxr-done', None)
 
-        self.browser.find_element_by_class_name('wanna_be_removed2')
+        self.browser.find_element_by_class_name('wanna_be_removed_2')
         self.assertEqual(self.browser.find_element_by_class_name('wanna_be_removed').text, 'wanna_be_removed')
 
         self.browser.execute_script("$(document).pjaxr.request('{0}')".format(reverse('about')))
@@ -71,7 +72,7 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assertEqual(keywords_metatag.get_attribute("content"), "This is a test")
 
         with self.assertRaises(NoSuchElementException):
-            self.browser.find_element_by_class_name('wanna_be_removed2')
+            self.browser.find_element_by_class_name('wanna_be_removed_2')
         with self.assertRaises(NoSuchElementException):
             self.assertEqual(self.browser.find_element_by_class_name('wanna_be_removed').text, 'wanna_be_removed')
 
