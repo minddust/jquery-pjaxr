@@ -156,7 +156,7 @@ Check if the request header have **X-PAX** set and return rendered html in like 
     * `link` will be replaced if `href` finds a match, otherwise it will be appended.
     * `script` will be replaced if `href` finds a match, otherwise it will be appended.
     * `style` will always be appended.
-    * `data-remove-on-pjaxr` can the written to any tag and will force the element to be removed with the next pjaxr request.
+    * `data-remove-on-pjaxr` can the written to any tag and will force the element to be removed with the next pjaxr request and restored on popstate.
 * `pjaxr-body`
     * every child must have an id.
 * `pjaxr-namespace` is optional but when given - it's value will be passed on further request via `X-PJAX-NAMESPACE`.
