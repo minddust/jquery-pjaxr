@@ -69,6 +69,7 @@ class SeleniumTestCase(LiveServerTestCase):
 
     def browser_go_forward(self):
         if getenv('SELENIUM_BROWSER') == 'safari':
+            # safari don't know how to go back
             self.browser.execute_script('history.go(1);')
         else:
             self.browser.forward()

@@ -1,17 +1,17 @@
 /*!
-* jquery.pjaxr v1.1.0 by @minddust
-* Copyright (c) 2013-2014 Stephan Groß
-*
-* https://www.minddust.com/project/jquery-pjaxr
-*
-* Licensed under the MIT license:
-* http://www.opensource.org/licenses/MIT
-*/
-(function($) {
+ * jquery.pjaxr v1.1.0 by @minddust
+ * Copyright (c) 2013-2014 Stephan Groß
+ *
+ * https://www.minddust.com/project/jquery-pjaxr
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+(function ($) {
     'use strict';
 
     function fnPjaxr(selector, options) {
-        return this.on('click.pjaxr', selector, function(event) {
+        return this.on('click.pjaxr', selector, function (event) {
             handleClick(event, options);
         });
     }
@@ -76,7 +76,7 @@
 
         var timeoutTimer;
 
-        opts.beforeSend = function(xhr, settings) {
+        opts.beforeSend = function (xhr, settings) {
             if (!fire('pjaxr:beforeSend', [xhr, settings])) {
                 return false;
             }
@@ -125,7 +125,7 @@
             fire('pjaxr:send', [opts]);
         }
 
-        xhr.done(function(data, textStatus, jqXHR) {
+        xhr.done(function (data, textStatus, jqXHR) {
             fire('pjaxr:success', [opts]);
 
             var currentVersion = (typeof opts.version === 'function') ? opts.version() : opts.version;
@@ -212,13 +212,13 @@
             fire('pjaxr:done', [data, textStatus, jqXHR, opts]);
         });
 
-        xhr.fail(function(jqXHR, textStatus, errorThrown) {
+        xhr.fail(function (jqXHR, textStatus, errorThrown) {
             if (textStatus !== 'abort' && fire('pjaxr:fail', [jqXHR, textStatus, errorThrown, opts])) {
                 loadHard(opts.url);
             }
         });
 
-        xhr.always(function() {
+        xhr.always(function () {
             if (timeoutTimer) {
                 clearTimeout(timeoutTimer);
             }
@@ -261,7 +261,7 @@
         var remove_head_parts = [];
 
         if (elements && elements.length > 0) {
-            $.each(elements, function(index, value) {
+            $.each(elements, function (index, value) {
                 var $value = $(value);
 
                 // only applied on push
@@ -274,10 +274,10 @@
                     var property = $value.attr('property');
 
                     if (name) {
-                        $meta = $('head > meta[name="'+name+'"]');
+                        $meta = $('head > meta[name="' + name + '"]');
                     }
                     else if (property) {
-                        $meta = $('head > meta[property="'+property+'"]');
+                        $meta = $('head > meta[property="' + property + '"]');
                     }
 
                     if ($meta !== undefined) {
@@ -298,7 +298,7 @@
                 else if ($value.is('link')) {
                     var link_href = $value.attr('href');
                     if (link_href) {
-                        var $link = $('head > link[href="'+link_href+'"]');
+                        var $link = $('head > link[href="' + link_href + '"]');
 
                         if ($link.length > 0) {
                             remove_head_parts.push(outerHTML($link));
@@ -317,7 +317,7 @@
                 else if ($value.is('script')) {
                     var script_src = $value.attr('src');
                     if (script_src) {
-                        var $script = $('head > script[src="'+script_src+'"]');
+                        var $script = $('head > script[src="' + script_src + '"]');
 
                         if ($script.length > 0) {
                             remove_head_parts.push(outerHTML($script));
@@ -353,7 +353,7 @@
 
         // cleanup head elements
         if (direction === 'forward') {
-            $('head > [data-remove-on-pjaxr]').each(function() {
+            $('head > [data-remove-on-pjaxr]').each(function () {
                 var $this = $(this);
                 remove_head_parts.push(outerHTML($this));
                 $this.remove();
@@ -381,11 +381,11 @@
         var revert_body_parts = [];
 
         if (elements && elements.length > 0) {
-            $.each(elements, function(index, value) {
+            $.each(elements, function (index, value) {
                 var $value = $(value);
                 var id = $value.attr('id');
                 if (id) {
-                    var $target = $('#'+id);
+                    var $target = $('#' + id);
                     if ($target.length > 0) {
                         revert_body_parts.push(outerHTML($target));
                         try {
@@ -480,7 +480,7 @@
 
     // helper to extract pjaxr version from head meta tag
     function findVersion() {
-        return $('meta').filter(function() {
+        return $('meta').filter(function () {
             return String($(this).attr('http-equiv')).toUpperCase() === 'X-PJAX-VERSION';
         }).attr('content');
     }
