@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+
 from django.core.urlresolvers import reverse
 
 from .helpers import SeleniumTestCase
@@ -82,7 +83,7 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.browser_go_back()
 
         # On Chrome/Webkit caching will return the content out of the pjaxr xhr-response, not a new initial content.
-        # fix #16
+        # fix #16 - pjaxr load + fallback
         self.wait.until(lambda browser: browser.find_element_by_css_selector('#site'))
 
         self.wait.until(lambda browser: browser.title == 'project-title')
@@ -90,7 +91,7 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assertContent('project-content')
         self.assertBodyAttr('pjaxr-done', None)
 
-    def test_pjaxr_request_depth_2_to_no_related_pjaxr_and_back(self):
+    def test_pjaxr_request_depth_2_to_no_pjaxr_through_hard_load_and_back(self):
         self.browser_get_reverse('index')
         self.assertTitle('index-title')
         self.assertContent('index-content')
@@ -128,7 +129,7 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.browser_go_back()
 
         # On Chrome/Webkit caching will return the content out of the pjaxr xhr-response, not a new initial content.
-        # fix #16, non-pjaxr-related hard load
+        # fix #16 - hard load
         self.wait.until(lambda browser: browser.find_element_by_css_selector('#site'))
 
         self.wait.until(lambda browser: browser.title == 'project-title')
