@@ -64,13 +64,14 @@
 
         var url = $.isFunction(link.href) ? link.href() : link.href;
 
-        var xhr_url = url; // + (url.indexOf('pjaxr_reset') != -1) ? '' : (url.indexOf('?') == -1) ? '?pjaxr_reset' : '&pjaxr_reset';
-        if (xhr_url.indexOf('pjaxr_reset') == -1) {
-            xhr_url += (url.indexOf('?') == -1) ? '?pjaxr_reset' : '&pjaxr_reset';
+        var xhr_url = url;
+        if (xhr_url.indexOf('pjaxr') == -1) {
+            xhr_url += url.indexOf('?') == -1 ? '?pjaxr' : '&pjaxr';
         }
 
         var defaults = {
             url: xhr_url,
+            plainUrl: url,
             type: 'GET',  // always GET since we currently not support other methods
             dataType: 'html'
         };
@@ -140,7 +141,7 @@
 
             // If there is a layout version mismatch, hard load the new url
             if (currentVersion && latestVersion && currentVersion !== latestVersion) {
-                loadHard(url);
+                loadHard(opts.plainUrl);
                 return;
             }
 
@@ -149,7 +150,7 @@
 
             // if response data doesn't fit, hard load the new url
             if (!head_match && !body_match) {
-                loadHard(url);
+                loadHard(opts.plainUrl);
                 return;
             }
             fire('pjaxr:success', [data, textStatus, jqXHR, opts]);
@@ -203,7 +204,8 @@
             fnPjaxr.state = {
                 id: stateId,
                 namespace: namespace,
-                url: url,
+                // by pushing the plainUrl - pjaxr param doesn't appear in the navigation bar and prevents browser caching bugs - #33
+                url: opts.plainUrl,
                 title: document.title,
                 head_apply: head_match ? apply_head_parts : null,
                 body_apply: body_match ? apply_body_parts : null
@@ -221,7 +223,7 @@
 
         xhr.fail(function (jqXHR, textStatus, errorThrown) {
             if (textStatus !== 'abort' && fire('pjaxr:fail', [jqXHR, textStatus, errorThrown, opts])) {
-                loadHard(url);
+                loadHard(opts.plainUrl);
             }
         });
 
@@ -527,9 +529,15 @@
 
     // disable pushState behavior
     function disable() {
-        $.fn.pjaxr = function() { return this; };
-        $.fn.pjaxrReady = function(func) { return $(document).ready(func); };
-        $.fn.pjaxrAlways = function(func) { return $(document).ready(func); };
+        $.fn.pjaxr = function () {
+            return this;
+        };
+        $.fn.pjaxrReady = function (func) {
+            return $(document).ready(func);
+        };
+        $.fn.pjaxrAlways = function (func) {
+            return $(document).ready(func);
+        };
         $.fn.pjaxr.enable = enable;
         $.fn.pjaxr.disable = $.noop;
         $(window).off('popstate.pjaxr', onPjaxrPopstate);
