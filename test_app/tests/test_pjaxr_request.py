@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.core.urlresolvers import reverse
 
 from .helpers import SeleniumTestCase
 
@@ -82,6 +83,52 @@ class PjaxrRequestTest(SeleniumTestCase):
 
         # On Chrome/Webkit caching will return the content out of the pjaxr xhr-response, not a new initial content.
         # fix #16
+        self.wait.until(lambda browser: browser.find_element_by_css_selector('#site'))
+
+        self.wait.until(lambda browser: browser.title == 'project-title')
+        self.assertTitle('project-title')
+        self.assertContent('project-content')
+        self.assertBodyAttr('pjaxr-done', None)
+
+    def test_pjaxr_request_depth_2_to_no_related_pjaxr_and_back(self):
+        self.browser_get_reverse('index')
+        self.assertTitle('index-title')
+        self.assertContent('index-content')
+        self.assertBodyAttr('pjaxr-done', None)
+
+        about_link = self.browser.find_element_by_css_selector('#about-link')
+        about_link.click()
+
+        self.wait.until(lambda browser: browser.title == 'about-title')
+        self.assertTitle('about-title')
+        self.assertContent('about-content')
+
+        self.assertBodyAttr('pjaxr-done', 'true')
+        self.resetBodyAttrs()
+        self.assertBodyAttr('pjaxr-done', None)
+
+        project_link = self.browser.find_element_by_css_selector('#project-link')
+        project_link.click()
+
+        self.wait.until(lambda browser: browser.title == 'project-title')
+        self.assertTitle('project-title')
+        self.assertContent('project-content')
+
+        self.assertBodyAttr('pjaxr-done', 'true')
+        self.resetBodyAttrs()
+        self.assertBodyAttr('pjaxr-done', None)
+
+        self.browser.execute_script('location.href="{0}"'.format(reverse('no_pjaxr_response')))
+
+        self.wait.until(lambda browser: browser.title == 'no-pjaxr-response-title')
+        self.assertTitle('no-pjaxr-response-title')
+        self.assertContent('no-pjaxr-response-content')
+        self.assertBodyAttr('pjaxr-done', None)
+
+        self.browser_go_back()
+
+        # On Chrome/Webkit caching will return the content out of the pjaxr xhr-response, not a new initial content.
+        # fix #16, non-pjaxr-related hard load
         self.wait.until(lambda browser: browser.find_element_by_css_selector('#site'))
 
         self.wait.until(lambda browser: browser.title == 'project-title')
