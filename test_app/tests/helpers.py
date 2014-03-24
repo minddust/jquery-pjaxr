@@ -58,8 +58,11 @@ class SeleniumTestCase(LiveServerTestCase):
         result = connection.getresponse()
         return result.status == 200
 
+    def reverse_url(self, name, **kwargs):
+        return '{0}{1}'.format(self.live_server_url, reverse(name, kwargs=kwargs))
+
     def browser_get_reverse(self, name, **kwargs):
-        self.browser.get('{0}{1}'.format(self.live_server_url, reverse(name, kwargs=kwargs)))
+        self.browser.get(self.reverse_url(name, **kwargs))
 
     def browser_go_back(self):
         if getenv('SELENIUM_BROWSER') == 'safari':
@@ -74,26 +77,29 @@ class SeleniumTestCase(LiveServerTestCase):
         else:
             self.browser.forward()
 
-    def assertTitle(self, title):
+    def assert_title(self, title):
         self.assertEqual(self.browser.title, title)
 
-    def assertContent(self, content):
+    def assert_content(self, content):
         c = self.browser.find_element_by_css_selector('#content').text
         self.assertEqual(c, content)
 
-    def assertBodyNamespace(self, namespace):
+    def assert_current_url(self, name, **kwargs):
+        self.assertEqual(self.browser.current_url, self.reverse_url(name, **kwargs))
+
+    def assert_body_namespace(self, namespace):
         body = self.browser.find_element_by_css_selector('body')
         body_attr = body.get_attribute('data-pjaxr-namespace')
         self.assertEqual(body_attr, namespace)
 
-    def assertCurrentNamespace(self, namespace):
+    def assert_current_namespace(self, namespace):
         self.browser.execute_script("$('body').attr('data-selenium-pjaxr-current-namespace', $.fn.pjaxr.state.namespace);")
-        self.assertBodyAttr('pjaxr-current-namespace', namespace)
+        self.assert_body_attr('pjaxr-current-namespace', namespace)
 
-    def assertBodyAttr(self, attribute, value):
+    def assert_body_attr(self, attribute, value):
         body = self.browser.find_element_by_css_selector('body')
         body_attr = body.get_attribute('data-selenium-' + attribute)
         self.assertEqual(body_attr, value)
 
-    def resetBodyAttrs(self):
+    def reset_body_attrs(self):
         self.browser.execute_script('$("body").removeAttrs(/^data-selenium-/);')
