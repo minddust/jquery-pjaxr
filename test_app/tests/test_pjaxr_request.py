@@ -85,7 +85,6 @@ class PjaxrRequestTest(SeleniumTestCase):
 
         self.browser_go_back()
 
-        self.browser_get_reverse('index')
         self.assert_title('index-title')
         self.assert_content('index-content')
         self.assert_body_attr('pjaxr-done', None)
@@ -155,7 +154,6 @@ class PjaxrRequestTest(SeleniumTestCase):
 
         self.browser_go_back()
 
-        self.browser_get_reverse('index')
         self.assert_title('index-title')
         self.assert_content('index-content')
         self.assert_body_attr('pjaxr-done', None)
