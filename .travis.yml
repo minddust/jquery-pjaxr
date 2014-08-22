@@ -34,9 +34,9 @@ env:
 #    SELENIUM_VERSION='10'
 
 install:
-- pip install Django==1.6.2
-- pip install django-pjaxr==1.0.1
-- pip install selenium==2.40.0
+- pip install Django==1.6.6
+- pip install django-pjaxr==1.1.1
+- pip install selenium==2.42.1
 - npm install
 - npm run-script prepare-tests
 - cd test_app
