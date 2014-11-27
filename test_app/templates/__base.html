@@ -6,7 +6,7 @@
         <title>{% block title %}{% endblock title %}</title>
         <script type="text/javascript" src="{% static 'jquery/jquery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'jquery.pjaxr.js' %}"></script>
-        <script class="to_be_removed_script" data-remove-on-pjaxr></script>
+        <script class="to_be_removed_script" src="{% static 'dummy.js' %}" data-remove-on-pjaxr></script>
         {% block inner_head %}{% endblock inner_head %}
     </head>
     <body data-pjaxr-namespace="{% block pjaxr_namespace %}{% endblock pjaxr_namespace %}">
