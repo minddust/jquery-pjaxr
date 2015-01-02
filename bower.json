@@ -8,6 +8,7 @@
     "ignore": [
         ".travis.yml",
         ".gitignore",
+        "bower.json",
         "test_app"
     ]
 }
