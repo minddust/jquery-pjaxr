@@ -8,6 +8,8 @@ It is able to replace **multiple containers** and different **head tags** with f
 
 For [browsers that don't support pushState](http://caniuse.com/#search=pushstate) pjaxr fully degrades.
 
+**Finally released version 1.2 but there is still a lot of work to do and currently no time for me to maintain this lib.**
+
 
 ## Why another pjax library?
 
