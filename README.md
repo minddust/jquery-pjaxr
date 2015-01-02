@@ -8,6 +8,8 @@ It is able to replace **multiple containers** and different **head tags** with f
 
 For [browsers that don't support pushState](http://caniuse.com/#search=pushstate) pjaxr fully degrades.
 
+**Finally released version 1.2 but there is still a lot of work to do and currently no time for me to maintain this lib.**
+
 
 ## Why another pjax library?
 
@@ -30,7 +32,7 @@ There is already an awesome plugin called [jquery-pjax](https://github.com/defun
 
 ## Installation
 
-* Download the latest release: [v1.1.0](https://github.com/minddust/jquery-pjaxr/archive/v1.1.0.zip)
+* Download the latest release: [v1.2.0](https://github.com/minddust/jquery-pjaxr/archive/v1.2.0.zip)
 * Clone the repository: `git clone git@github.com:minddust/jquery-pjaxr.git`.
 * Curl the library: `curl -O https://raw.github.com/minddust/jquery-pjaxr/master/jquery.pjaxr.min.js`
 * Install with [Bower](http://bower.io): `bower install jquery-pjaxr`.
@@ -185,6 +187,56 @@ There are many available plugins for different languages and frameworks which wi
 * Rails: https://github.com/rails/pjax_rails
 
 
+## Testing
+
+As noted above: the testcases are **incomplete**
+
+The main reason for this is that it's really hard to simulate complex page transitions. If you want to support this project - you can take a look at the structure of the existing ones an write some additional tests. Help is always welcome!
+
+To run the tests locally you have to follow these steps:
+
+1. clone the repository
+
+    ```
+git clone git@github.com:minddust/jquery-pjaxr.git
+    ```
+2. install python dependencies for test suite
+
+    ```
+pip install Django==1.6.6
+pip install django-pjaxr==1.1.1
+pip install selenium==2.42.1
+    ```
+3. install node dependencies for test suite
+
+    ```
+npm install
+    ```
+4. copy pjaxr js into test_app
+
+    ```
+npm run-script prepare-tests
+    ```
+5. install node dependencies for test_app (bower)
+
+    ```
+cd test_app
+npm install
+    ```
+6. install bower dependencies for test_app
+
+    ```
+npm run-script bower-install
+    ```
+7. run the tests
+
+    ```
+cd ..
+python test_app/tests/runtests.py
+    ```
+    
+Note: you may need to download the [ChromeDriver](http://chromedriver.storage.googleapis.com/index.html) if it's not already installed. 
+
 ## Sites using jquery-pjaxr
 
 If you are using this library and want to get listed below.  Please let me know.  Just make a pull request or write me an [email](http://www.google.com/recaptcha/mailhide/d?k=011zym_c1aKrhZC1K3TKFvVQ==&c=fPxx09KG4QgsFYu7CWApi-ZBAupHsLalyCVJ_Vogc8g= "Reveal my email address").
@@ -197,7 +249,6 @@ If you are using this library and want to get listed below.  Please let me know.
 
 Help is appreciated!
 
-> Testsuite will be rewritten - check out in a few days.
 
 ## Thanks
 
@@ -206,6 +257,6 @@ I like to thank [Chris Wanstrath](https://github.com/defunkt) for his really awe
 
 ## Copyright and license
 
-Copyright 2013 Stephan Groß, under [MIT license](https://github.com/minddust/jquery-pjaxr/blob/master/LICENSE).
+Copyright 2013-2015 Stephan Groß, under [MIT license](https://github.com/minddust/jquery-pjaxr/blob/master/LICENSE).
 
 Want to appreciate my work? [minddust at Gittip](https://www.gittip.com/minddust/)

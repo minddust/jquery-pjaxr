@@ -1,13 +1,12 @@
 {
     "name": "jquery.pjaxr.tests",
     "version": "0.0.1",
-    "authors": [
-        "Stephan Groß"
-    ],
+    "author": "Stephan Groß",
+    "private": true,
     "scripts": {
         "bower-install": "node_modules/.bin/bower install"
     },
     "devDependencies": {
-        "bower": "~1.2.8"
+        "bower": "1.3.12"
     }
 }

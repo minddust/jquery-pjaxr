@@ -1,7 +1,7 @@
 var gulp = require('gulp');
-var clean = require('gulp-clean');
 var header = require('gulp-header');
 var rename = require('gulp-rename');
+var rimraf = require('gulp-rimraf');
 var uglify = require('gulp-uglify');
 var util = require('gulp-util');
 
@@ -20,7 +20,7 @@ gulp.task('scripts', function() {
 
 gulp.task('clean', function() {
     return gulp.src('./jquery.pjaxr.min.js', {read: false})
-        .pipe(clean());
+        .pipe(rimraf({force: true}));
 });
 
 gulp.task('prepare-tests', function() {

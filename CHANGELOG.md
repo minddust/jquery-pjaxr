@@ -8,6 +8,7 @@
 * Fix #17 misuse of location.replace
 * Fix #19 missing pjaxr:send event
 * Fix #24 strip namespace processing
+* Fix #38 missing testing instructions
 
 # 1.1.0 (2013-11-21)
 

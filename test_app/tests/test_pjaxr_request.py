@@ -15,7 +15,6 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assert_body_attr('pjaxr-done', None)
 
         self.browser.find_element_by_class_name('to_be_removed_script')
-        self.assertEqual(self.browser.find_element_by_class_name('to_be_removed_div').text, 'to_be_removed_div')
 
         about_link = self.browser.find_element_by_css_selector('#about-link')
         about_link.click()
@@ -28,8 +27,6 @@ class PjaxrRequestTest(SeleniumTestCase):
 
         with self.assertRaises(NoSuchElementException):
             self.browser.find_element_by_class_name('to_be_removed_script')
-        with self.assertRaises(NoSuchElementException):
-            self.browser.find_element_by_class_name('to_be_removed_div')
 
         self.assert_body_attr('pjaxr-click', 'true')
         self.assert_body_attr('pjaxr-before-send', 'true')
@@ -62,7 +59,6 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assert_body_attr('pjaxr-done', None)
 
         self.browser.find_element_by_class_name('to_be_removed_script')
-        self.assertEqual(self.browser.find_element_by_class_name('to_be_removed_div').text, 'to_be_removed_div')
 
         about_link = self.browser.find_element_by_css_selector('#about-link')
         about_link.click()
@@ -75,8 +71,6 @@ class PjaxrRequestTest(SeleniumTestCase):
 
         with self.assertRaises(NoSuchElementException):
             self.browser.find_element_by_class_name('to_be_removed_script')
-        with self.assertRaises(NoSuchElementException):
-            self.browser.find_element_by_class_name('to_be_removed_div')
             
         self.assert_body_attr('pjaxr-done', 'true')
 
@@ -90,7 +84,6 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assert_body_attr('pjaxr-done', None)
 
         self.browser.find_element_by_class_name('to_be_removed_script')
-        self.assertEqual(self.browser.find_element_by_class_name('to_be_removed_div').text, 'to_be_removed_div')
 
     def test_pjaxr_request_javascript(self):
         self.browser_get_reverse('index')
@@ -99,7 +92,6 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assert_body_attr('pjaxr-done', None)
 
         self.browser.find_element_by_class_name('to_be_removed_script')
-        self.assertEqual(self.browser.find_element_by_class_name('to_be_removed_div').text, 'to_be_removed_div')
 
         self.browser.execute_script("$(document).pjaxr.request('{0}')".format(reverse('about')))
 
@@ -111,8 +103,6 @@ class PjaxrRequestTest(SeleniumTestCase):
 
         with self.assertRaises(NoSuchElementException):
             self.browser.find_element_by_class_name('to_be_removed_script')
-        with self.assertRaises(NoSuchElementException):
-            self.browser.find_element_by_class_name('to_be_removed_div')
 
         self.assert_body_attr('pjaxr-click', None)
         self.assert_body_attr('pjaxr-before-send', 'true')
@@ -132,7 +122,6 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assert_body_attr('pjaxr-done', None)
 
         self.browser.find_element_by_class_name('to_be_removed_script')
-        self.assertEqual(self.browser.find_element_by_class_name('to_be_removed_div').text, 'to_be_removed_div')
 
         self.browser.execute_script("$(document).pjaxr.request('{0}')".format(reverse('about')))
 
@@ -144,8 +133,6 @@ class PjaxrRequestTest(SeleniumTestCase):
 
         with self.assertRaises(NoSuchElementException):
             self.browser.find_element_by_class_name('to_be_removed_script')
-        with self.assertRaises(NoSuchElementException):
-            self.assertEqual(self.browser.find_element_by_class_name('to_be_removed_div').text, 'to_be_removed_div')
 
         self.assert_body_attr('pjaxr-done', 'true')
 
@@ -159,7 +146,6 @@ class PjaxrRequestTest(SeleniumTestCase):
         self.assert_body_attr('pjaxr-done', None)
 
         self.browser.find_element_by_class_name('to_be_removed_script')
-        self.assertEqual(self.browser.find_element_by_class_name('to_be_removed_div').text, 'to_be_removed_div')
 
     def test_pjaxr_request_depth_2_to_no_pjaxr_and_back(self):
         self.browser_get_reverse('index')
